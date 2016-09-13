@@ -1,51 +1,52 @@
 // Authenticate a Customer
 
-curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Anton/3895016ea20bc731c5f539fa4c283f55
 
-curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/bob@mail.com/590a7813ec4d8efed2c228ca62cb5948
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb5948
 
 
 
 // Authenticate a Customer but invalid
 
-curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/bob@mail.com/590a7813ec4d8efed2c228ca62cb59xx
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb59xx
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/anton/3895016ea20bc731c5f539fa4c283f55
 
 
 
 // Register a Customer
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "email@email.com", "name": "myName", "password": "thisIsMyPassword"}' http://localhost/sites/MoreFitMoreFun/index.php/customer/
+curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "Kirstine", "email": "email@email.com", "password": "thisIsMyPassword"}' http://localhost/sites/Health/index.php/customer/
 
 
 
-// Try Register a Customer but where email is not unique
+// Try Register a Customer but where name is not unique, not even accepting difference in case sensitive
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "bob@mail.com", "name": "myName", "password": "thisIsMyPassword"}' http://localhost/sites/MoreFitMoreFun/index.php/customer/
+curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "anton", "email": "someOther@mail.com", "password": "thisIsMyPassword"}' http://localhost/sites/Health/index.php/customer/
 
 
 
 // get runs
 
-curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/run/1/anton@mail.com/3895016ea20bc731c5f539fa4c283f55/
-curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/run/2/bob@mail.com/590a7813ec4d8efed2c228ca62cb5948/
+curl -i -X GET http://localhost/sites/Health/index.php/run/1/Anton/3895016ea20bc731c5f539fa4c283f55/
+curl -i -X GET http://localhost/sites/Health/index.php/run/2/bob@mail.com/590a7813ec4d8efed2c228ca62cb5948/
 
 
 
 // create run
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "date": "2016-03-17", "routeName": "The oval", "km": "5", "seconds": "19500", "feeling": "tired in legs"}' http://localhost/sites/MoreFitMoreFun/index.php/run/
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "date": "2016-03-17", "routeName": "The oval", "km": "5", "seconds": "19500", "feeling": "tired in legs"}' http://localhost/sites/Health/index.php/run/
 
 
 
 // delete run
 
-curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "runId": "3"}' http://localhost/sites/MoreFitMoreFun/index.php/run/
+curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "runId": "3"}' http://localhost/sites/Health/index.php/run/
 
 
 
 // Update run
 
-curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "1", "email": "anton@mail.com", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2015-10-27", "routeName": "The oval", "km": "42", "seconds": "195200", "feeling": "tired in body", "runId": "1"}' http://localhost/sites/MoreFitMoreFun/index.php/run/
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "1", "email": "anton@mail.com", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2015-10-27", "routeName": "The oval", "km": "42", "seconds": "195200", "feeling": "tired in body", "runId": "1"}' http://localhost/sites/Health/index.php/run/
 
 
 ============================================================================================================

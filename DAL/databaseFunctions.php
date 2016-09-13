@@ -3,7 +3,7 @@
 /**
 * get all runs for specific user
 */
-function retrieveRuns($customerId, $email, $authKey)
+function retrieveRuns($customerId)
 {	
 	// get database connection
 	$databaseConnection = getConnection(); 	
@@ -167,10 +167,10 @@ function eraseRun($runId)
 
 
 // retrieve Customer
-function retrieveCustomer($an_email) 
+function retrieveCustomer($aName) 
 {	
 	// build sql string
-	$sql = "SELECT * FROM tblCustomer WHERE fldEmail=:email_placeholder"; 
+	$sql = "SELECT * FROM tblCustomer WHERE fldNAme = :name_placeholder"; 
 	
 	// get db connection
 	$databaseConnection = getConnection(); 	
@@ -180,10 +180,10 @@ function retrieveCustomer($an_email)
 		$statement = $databaseConnection->prepare($sql);		
 		
 		// bind parameters
-		$statement->bindParam("email_placeholder", $an_email); 
+		$statement->bindParam("name_placeholder", $aName); 
 		
 		$statement->execute(); 	
-		$row = $statement->fetch(PDO::FETCH_OBJ); 	// fetch because zero or one row
+		$row = $statement->fetch(PDO::FETCH_OBJ); 	// fetch because zero or one row		
 		
 		// close connection
 		$databaseConnection = null; 
@@ -202,20 +202,20 @@ function retrieveCustomer($an_email)
 }
 
 
-function retrieveCustomerBasedOnEmailAndAuthKey($an_email, $an_authKey)
+function retrieveCustomerBasedOnNameAndAuthKey($a_name, $an_authKey)
 {	
 	// get db connection
 	$databaseConnection = getConnection(); 
 
 	// build sql string
-	$sql = "SELECT * FROM tblCustomer WHERE fldEmail=:email_placeholder AND fldAuthenticationKey=:authKey_placeholder";
+	$sql = "SELECT * FROM tblCustomer WHERE fldName=:name_placeholder AND fldAuthenticationKey=:authKey_placeholder";
 	
 	try 
 	{
 		
 		$statement = $databaseConnection->prepare($sql);
 		
-		$statement->bindParam("email_placeholder", $an_email); 
+		$statement->bindParam("name_placeholder", $a_name); 
 		$statement->bindParam("authKey_placeholder", $an_authKey); 
 		
 		$statement->execute(); 
@@ -238,11 +238,11 @@ function retrieveCustomerBasedOnEmailAndAuthKey($an_email, $an_authKey)
 
 
 // create a customer
-function createCustomer($an_email, $a_name, $a_salt, $a_hash)
+function createCustomer($a_name, $an_email, $a_salt, $a_hash)
 {
 	// build sql string
-	$sql = "INSERT INTO tblCustomer (fldEmail, fldName, fldSalt, fldAuthenticationKey) 
-			VALUES (:email_placeholder, :name_placeholder, :salt_placeholder, :authKey_placeholder)";
+	$sql = "INSERT INTO tblCustomer (fldName, fldEmail, fldSalt, fldAuthenticationKey) 
+			VALUES (:name_placeholder, :email_placeholder, :salt_placeholder, :authKey_placeholder)";
 			
 	try {
 		// get db connection
@@ -250,8 +250,8 @@ function createCustomer($an_email, $a_name, $a_salt, $a_hash)
 		
 		$statement = $db->prepare($sql); 
 		
-		$statement->bindParam("email_placeholder", $an_email);
 		$statement->bindParam("name_placeholder", $a_name);
+		$statement->bindParam("email_placeholder", $an_email);
 		$statement->bindParam("salt_placeholder", $a_salt); 
 		$statement->bindParam("authKey_placeholder", $a_hash);
 		

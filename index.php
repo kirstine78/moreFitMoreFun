@@ -9,13 +9,13 @@ require_once("DAL/databaseFunctions.php");
 $app = new Slim(); 
 
 // GET routes
-$app->get('/run/:aCustomerId/:anEmail/:anAuthKey/', 'getRuns');
-$app->get('/authenticate/:anEmail/:anAuthKey', 'authenticateUser'); 
+$app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');  // fixed
+$app->get('/authenticate/:aName/:anAuthKey', 'authenticateUser');  // fixed 
 
 
 // POST routes
 $app->post('/run/', 'makeRun'); 
-$app->post('/customer/', 'registerCustomer'); 
+$app->post('/customer/', 'registerCustomer');  // fixed 
 
 
 // PUT routes
@@ -26,11 +26,11 @@ $app->put('/run/', 'updateRun');
 $app->delete('/run/', 'deleteRun'); 
 
 
-function getRuns($customerId, $email, $authKey)
+function getRuns($customerId, $name, $authKey)
 {		
 	global $app;
 	
-	// TODO check credentials first
+	// TODO check credentials first be sure to check for case sensitiveness
 	
 	// use slim to get a reference to the HTTP response object to be able to modify it 
 	$response = $app->response();
@@ -41,7 +41,7 @@ function getRuns($customerId, $email, $authKey)
 	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
 	$response->header('Access-Control-Allow-Origin', '*'); 
 	
-	$row = retrieveRuns($customerId, $email, $authKey);  // function in databaseFunctions.php return rows or null
+	$row = retrieveRuns($customerId);  // function in databaseFunctions.php return rows or null
 		
 	// echo out the Array of all rows represented in json format  [{},{}]
 	// If no rows are retrieved then $row == null and an empty array is returned (NB. null is NOT returned!!!)
@@ -70,7 +70,7 @@ function makeRun()
 	$requestBody = json_decode($request->getBody());	
 	
 	// TODO authenticate user
-	// $authenticateResult = isAuthKeyAndEmailOk($requestBody->email, $requestBody->authenticationKey); 
+	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
 	// echo $authenticateResult["VALID"] . "\n";  // boolean
 	
 	$insertResult = false;
@@ -121,7 +121,7 @@ function updateRun()
 	
 	// TODO authenticate user
 	
-	// $authenticateResult = isAuthKeyAndEmailOk($requestBody->email, $requestBody->authenticationKey); 
+	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
 	// echo $authenticateResult["VALID"] . "\n";  // boolean
 	
 	$updateResult = false;
@@ -172,7 +172,7 @@ function deleteRun()
 	
 	// TODO authenticate user
 	
-	// $authenticateResult = isAuthKeyAndEmailOk($requestBody->email, $requestBody->authenticationKey); 
+	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
 	// echo $authenticateResult["VALID"] . "\n";  // boolean
 	
 	$deleteResult = false;
@@ -199,8 +199,8 @@ function deleteRun()
 }
 
 
-// authenticate if email and auth key are correct
-function authenticateUser($an_email, $an_authKey)
+// authenticate if name and auth key are correct
+function authenticateUser($a_name, $an_authKey)
 { 			
 	global $app;
 	
@@ -213,15 +213,15 @@ function authenticateUser($an_email, $an_authKey)
 	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
 	$response->header('Access-Control-Allow-Origin', '*'); 
 		
-	$resultArr = isAuthKeyAndEmailOk($an_email, $an_authKey);
+	$resultArr = isAuthKeyAndNameOk($a_name, $an_authKey);
 	echo json_encode($resultArr);
 } // end function
 
 
 
-function isAuthKeyAndEmailOk($an_email, $an_authKey)
+function isAuthKeyAndNameOk($a_name, $an_authKey)
 {
-	$row = retrieveCustomerBasedOnEmailAndAuthKey($an_email, $an_authKey);	
+	$row = retrieveCustomerBasedOnNameAndAuthKey($a_name, $an_authKey);	
 		
 	// set $resultArray
 	$resultArray = array("VALID"=>"false");	
@@ -231,10 +231,10 @@ function isAuthKeyAndEmailOk($an_email, $an_authKey)
 	{
 		// echo "row returned\n";
 		
-		// check if auth key matches and email matches (case sensitive)
-		if ( (strcmp($row->fldAuthenticationKey, $an_authKey) == 0) && (strcmp($row->fldEmail, $an_email) == 0) )
+		// check if auth key matches and name matches (case sensitive)
+		if ( (strcmp($row->fldAuthenticationKey, $an_authKey) == 0) && (strcmp($row->fldName, $a_name) == 0) )
 		{
-			// auth key and email from db match auth key  and email from local storage on phone
+			// auth key and name from db match auth key and name from local storage on phone
 			// update $resultArray
 			$resultArray = array("VALID"=>"true");			
 		}
@@ -245,6 +245,8 @@ function isAuthKeyAndEmailOk($an_email, $an_authKey)
 
 
 // POST create a customer
+// name must be unique. 
+// does not even accept 'anton' if 'ANTON' is in database
 function registerCustomer()
 {
 	global $app;
@@ -267,13 +269,13 @@ function registerCustomer()
 	$insertResult = false;
 	$row = null;	
 	
-	// check if email (username) is unique
-	$isEmailUnique = isTheEmailUnique($requestBody->email);
+	// check if Name (username) is unique
+	$isNameUnique = isTheNameUnique($requestBody->name);
 		
-	// only if email is unique then generate salt and create hash value from (password + salt)
-	if ($isEmailUnique)
+	// only if Name is unique then generate salt and create hash value from (password + salt)
+	if ($isNameUnique)
 	{	
-		// echo "email unique\n";
+		echo "Name unique\n";
 		$password = $requestBody->password;
 		// echo  "password: ".$password . "\n";
 		$hashArray = doHashing($password);
@@ -282,12 +284,12 @@ function registerCustomer()
 		$hashValue = $hashArray[1];
 		
 		// function in databaseFunctions.php return boolean
-		$insertResult = createCustomer($requestBody->email, $requestBody->name, $salt, $hashValue); 		
+		$insertResult = createCustomer($requestBody->name, $requestBody->email, $salt, $hashValue); 		
 		
-		if ($insertResult) // true comes back. successful insert
+		if ($insertResult) // true comes back. successful insertion
 		{
-			// get the row so auth key, customer id, (and email) can be saved on local phone	
-			$row = retrieveCustomer($requestBody->email);			
+			// get the row so auth key, customer id, (and name) can be saved on local phone	
+			$row = retrieveCustomer($requestBody->name);			
 		}
 	}
 	
@@ -296,21 +298,21 @@ function registerCustomer()
 }
 
 
-// check if email is unique and return boolean 
-function isTheEmailUnique($anEmail)
+// check if Name is unique and return boolean 
+function isTheNameUnique($aName)
 {
-	$isEmailUnique = false;
+	$isNameUnique = false;
 	
 	// function in databaseFunctions.php return rows (zero or one)
-	$row = retrieveCustomer($anEmail);  
+	$row = retrieveCustomer($aName);  
 	
 	// check if any row was returned
 	if ($row == null)
-	{
-		// email is unique
-		$isEmailUnique = true;		
+	{		
+		// Name is unique
+		$isNameUnique = true;		
 	}
-	return $isEmailUnique;
+	return $isNameUnique;
 }
 
 
