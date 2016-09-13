@@ -15,18 +15,17 @@ Create Table If Not Exists tblCustomer
  fldEmail					VarChar(40) 	Not Null,
  fldSalt					char(10),
  fldAuthenticationKey		char(32) 		Not Null,
- fldFirstName				VarChar(20) 	Not Null,
- fldLastName				VarChar(20)		Not Null,
+ fldName					VarChar(20) 	Not Null,
  
  Constraint tblCustomer_pk Primary Key (fldCustomerId),
  UNIQUE KEY fldEmail (fldEmail)
  ) Engine=InnoDB Default Charset=utf8;
  
-INSERT INTO tblCustomer VALUES (1, 'anton@mail.com', 	'Q6Q8amXOwG', '3895016ea20bc731c5f539fa4c283f55', 'Anton', 'Marcussen');
-INSERT INTO tblCustomer VALUES (2, 'bob@mail.com', 	'Xb0fIgdOxu', '590a7813ec4d8efed2c228ca62cb5948', 'Bob', 'Mikkelsen');
-INSERT INTO tblCustomer VALUES (3, 'cat@mail.com', 	'fziPHfkLE4', 'c8202b82a60c83cd7b1d47ded73a6910', 'Cathy', 'Smith');
-INSERT INTO tblCustomer VALUES (4, 'donna@mail.com', 	'tgHK4NWuYk', 'd96f3c18be16f75925bfc67243a0ffbc', 'Donna', 'Lawler');
-INSERT INTO tblCustomer VALUES (5, 'eve@mail.com', 	'Y2wkSBzKgT', '54c8249405cd7623ba8a7a6cdcd18f18', 'Eve', 'Anderson');
+INSERT INTO tblCustomer VALUES (1, 'anton@mail.com', 	'Q6Q8amXOwG', '3895016ea20bc731c5f539fa4c283f55', 'Anton');
+INSERT INTO tblCustomer VALUES (2, 'bob@mail.com', 	'Xb0fIgdOxu', '590a7813ec4d8efed2c228ca62cb5948', 'Bob');
+INSERT INTO tblCustomer VALUES (3, 'cat@mail.com', 	'fziPHfkLE4', 'c8202b82a60c83cd7b1d47ded73a6910', 'Cathy');
+INSERT INTO tblCustomer VALUES (4, 'donna@mail.com', 	'tgHK4NWuYk', 'd96f3c18be16f75925bfc67243a0ffbc', 'Donna');
+INSERT INTO tblCustomer VALUES (5, 'eve@mail.com', 	'Y2wkSBzKgT', '54c8249405cd7623ba8a7a6cdcd18f18', 'Eve');
 
 
 
