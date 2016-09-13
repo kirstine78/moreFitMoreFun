@@ -547,7 +547,6 @@ function updateCustomer($a_customerId)
 // authenticate if email and auth key are correct
 function authenticateUser($an_email, $an_authKey)
 { 			
-		
 	global $app;
 	
 	// use slim to get a reference to the HTTP response object to be able to modify it 

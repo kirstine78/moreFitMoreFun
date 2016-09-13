@@ -1,3 +1,19 @@
+// Authenticate a Customer
+
+curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+
+curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/bob@mail.com/590a7813ec4d8efed2c228ca62cb5948
+
+
+// Authenticate a Customer but invalid
+
+
+
+
+
+
+
+
 // get runs
 
 curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/run/1/anton@mail.com/3895016ea20bc731c5f539fa4c283f55/

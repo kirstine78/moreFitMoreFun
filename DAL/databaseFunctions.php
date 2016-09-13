@@ -166,6 +166,81 @@ function eraseRun($runId)
 
 
 
+function retrieveCustomerBasedOnEmailAndAuthKey($an_email, $an_authKey)
+{	
+	// get db connection
+	$databaseConnection = getConnection(); 
+
+	// build sql string
+	$sql = "SELECT * FROM tblCustomer WHERE fldEmail=:email_placeholder AND fldAuthenticationKey=:authKey_placeholder";
+	
+	try 
+	{
+		
+		$statement = $databaseConnection->prepare($sql);
+		
+		$statement->bindParam("email_placeholder", $an_email); 
+		$statement->bindParam("authKey_placeholder", $an_authKey); 
+		
+		$statement->execute(); 
+		$row = $statement->fetch(PDO::FETCH_OBJ); 
+		
+		// close connection
+		$databaseConnection = null;  
+		
+		return $row;
+	}
+	catch (PDOException $e)
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage();
+	}			
+}
+
+
+// create a customer
+function createCustomer($an_email, $a_name, $a_salt, $a_hash)
+{
+	// build sql string
+	$sql = "INSERT INTO tblCustomer (fldEmail, fldSalt, fldAuthenticationKey, fldFirstName, fldLastName, fldLicenceNo, fldMobile) 
+			VALUES (:email_placeholder, :salt_placeholder, :authKey_placeholder, :firstName_placeholder, :lastName_placeholder, :licenceNo_placeholder, :mobile_placeholder)";
+			
+	try {
+		// get db connection
+		$db = getConnection(); 
+		
+		$statement = $db->prepare($sql); 
+		
+		$statement->bindParam("email_placeholder", $an_email);
+		$statement->bindParam("salt_placeholder", $a_salt); 
+		$statement->bindParam("authKey_placeholder", $a_hash);
+		$statement->bindParam("firstName_placeholder", $a_firstName);
+		$statement->bindParam("lastName_placeholder", $a_lastName);
+		$statement->bindParam("licenceNo_placeholder", $a_licenceNo);
+		$statement->bindParam("mobile_placeholder", $a_mobile);
+		
+		$statement->execute(); 
+		
+		// close db connection
+		$db = null;
+		
+		return true;
+	}
+	catch (PDOException $e)
+	{ 
+		if ($db != null) 
+		{
+			$db = null; 			
+		}
+		echo $e->getMessage();
+		return false;
+	}
+}
+
+
 // Returns a reference to a PDO Database connection object.
 function getConnection()
 {	
