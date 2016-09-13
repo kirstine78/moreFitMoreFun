@@ -41,9 +41,9 @@ function retrieveBrands()
 	{ 
 		// db related
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql);		
-		$stmt->execute(); 	
-		$row = $stmt->fetchALL(PDO::FETCH_OBJ); 	
+		$statement = $db->prepare($sql);		
+		$statement->execute(); 	
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
 		
 		// close connection
 		$db = null; 
@@ -86,15 +86,15 @@ function retrieveAvailableCars($a_suburb, $a_pickupDate, $a_dropoffDate)
 	{ 
 		// db related
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql); 
+		$statement = $db->prepare($sql); 
 		
 		// bind parameters
-		$stmt->bindParam("suburb_placeholder", $a_suburb); 
-		$stmt->bindParam("pickupDate_placeholder", $a_pickupDate); 
-		$stmt->bindParam("dropoffDate_placeholder", $a_dropoffDate); 
+		$statement->bindParam("suburb_placeholder", $a_suburb); 
+		$statement->bindParam("pickupDate_placeholder", $a_pickupDate); 
+		$statement->bindParam("dropoffDate_placeholder", $a_dropoffDate); 
 		
-		$stmt->execute();		
-		$row = $stmt->fetchALL(PDO::FETCH_OBJ); 	
+		$statement->execute();		
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
 		
 		// close connection
 		$db = null; 
@@ -124,9 +124,9 @@ function retrieveSuburbs()
 	{ 
 		// db related
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql);		
-		$stmt->execute(); 	
-		$row = $stmt->fetchALL(PDO::FETCH_OBJ); 	
+		$statement = $db->prepare($sql);		
+		$statement->execute(); 	
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
 		
 		// close connection
 		$db = null; 
@@ -156,13 +156,13 @@ function retrieveCustomer($an_email)
 	{ 
 		// get db connection
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql);		
+		$statement = $db->prepare($sql);		
 		
 		// bind parameters
-		$stmt->bindParam("email_placeholder", $an_email); 
+		$statement->bindParam("email_placeholder", $an_email); 
 		
-		$stmt->execute(); 	
-		$row = $stmt->fetch(PDO::FETCH_OBJ); 	// fetch because zero or one row
+		$statement->execute(); 	
+		$row = $statement->fetch(PDO::FETCH_OBJ); 	// fetch because zero or one row
 		
 		// close connection
 		$db = null; 
@@ -191,13 +191,13 @@ function retrieveCustomerBasedOnEmailAndAuthKey($an_email, $an_authKey)
 		// get db connection
 		$db = getConnection(); 
 		
-		$stmt = $db->prepare($sql);
+		$statement = $db->prepare($sql);
 		
-		$stmt->bindParam("email_placeholder", $an_email); 
-		$stmt->bindParam("authKey_placeholder", $an_authKey); 
+		$statement->bindParam("email_placeholder", $an_email); 
+		$statement->bindParam("authKey_placeholder", $an_authKey); 
 		
-		$stmt->execute(); 
-		$row = $stmt->fetch(PDO::FETCH_OBJ); 
+		$statement->execute(); 
+		$row = $statement->fetch(PDO::FETCH_OBJ); 
 		
 		// close connection
 		$db = null;  
@@ -237,13 +237,13 @@ function retrieveBookings($a_customerId)
 	{ 
 		// get db connection
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql);		
+		$statement = $db->prepare($sql);		
 		
 		// bind parameters
-		$stmt->bindParam("customerId_placeholder", $a_customerId); 
+		$statement->bindParam("customerId_placeholder", $a_customerId); 
 		
-		$stmt->execute(); 	
-		$row = $stmt->fetchALL(PDO::FETCH_OBJ); 	
+		$statement->execute(); 	
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
 		
 		// close connection
 		$db = null; 
@@ -286,13 +286,13 @@ function retrieveUnreturnedBookings($a_customerId)
 	{ 
 		// get db connection
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql);		
+		$statement = $db->prepare($sql);		
 		
 		// bind parameters
-		$stmt->bindParam("customerId_placeholder", $a_customerId); 
+		$statement->bindParam("customerId_placeholder", $a_customerId); 
 		
-		$stmt->execute(); 	
-		$row = $stmt->fetchALL(PDO::FETCH_OBJ); 	
+		$statement->execute(); 	
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
 		
 		// close connection
 		$db = null; 
@@ -327,15 +327,15 @@ function retrieveBookingsTimePeriodClause($customerId, $startDate, $returnDate)
 	{ 
 		// get db connection
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql);		
+		$statement = $db->prepare($sql);		
 		
 		// bind parameters
-		$stmt->bindParam("customerId_placeholder", $customerId); 
-		$stmt->bindParam("pickupDate_placeholder", $startDate); 
-		$stmt->bindParam("dropoffDate_placeholder", $returnDate); 
+		$statement->bindParam("customerId_placeholder", $customerId); 
+		$statement->bindParam("pickupDate_placeholder", $startDate); 
+		$statement->bindParam("dropoffDate_placeholder", $returnDate); 
 		
-		$stmt->execute(); 	
-		$row = $stmt->fetchALL(PDO::FETCH_OBJ); 	
+		$statement->execute(); 	
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
 		
 		// close connection
 		$db = null; 
@@ -367,13 +367,13 @@ function getSpecificBooking($aBookingNumber)
 	{ 
 		// get db connection
 		$db = getConnection(); 		
-		$stmt = $db->prepare($sql);		
+		$statement = $db->prepare($sql);		
 		
 		// bind parameters
-		$stmt->bindParam("bookingNumber_placeholder", $aBookingNumber);
+		$statement->bindParam("bookingNumber_placeholder", $aBookingNumber);
 		
-		$stmt->execute(); 	
-		$row = $stmt->fetch(PDO::FETCH_OBJ); 	
+		$statement->execute(); 	
+		$row = $statement->fetch(PDO::FETCH_OBJ); 	
 		
 		// close connection
 		$db = null; 
@@ -402,14 +402,14 @@ function saveUpdatesCustomer($a_customerId, $a_mobile, $a_salt, $a_hashValue)
 		// get db connection
 		$db = getConnection(); 
 		
-		$stmt = $db->prepare($sql); 
+		$statement = $db->prepare($sql); 
 		
-		$stmt->bindParam("id_placeholder", $a_customerId);
-		$stmt->bindParam("mobile_placeholder", $a_mobile); 
-		$stmt->bindParam("salt_placeholder", $a_salt);
-		$stmt->bindParam("hash_placeholder", $a_hashValue);
+		$statement->bindParam("id_placeholder", $a_customerId);
+		$statement->bindParam("mobile_placeholder", $a_mobile); 
+		$statement->bindParam("salt_placeholder", $a_salt);
+		$statement->bindParam("hash_placeholder", $a_hashValue);
 		
-		$stmt->execute(); 
+		$statement->execute(); 
 		
 		// close db connection
 		$db = null;
@@ -439,12 +439,12 @@ function saveUpdatesCustomerMobile($a_customerId, $a_mobile)
 		// get db connection
 		$db = getConnection(); 
 		
-		$stmt = $db->prepare($sql); 
+		$statement = $db->prepare($sql); 
 		
-		$stmt->bindParam("id_placeholder", $a_customerId);
-		$stmt->bindParam("mobile_placeholder", $a_mobile);
+		$statement->bindParam("id_placeholder", $a_customerId);
+		$statement->bindParam("mobile_placeholder", $a_mobile);
 		
-		$stmt->execute(); 
+		$statement->execute(); 
 		
 		// close db connection
 		$db = null;
@@ -474,15 +474,15 @@ function createBooking($a_carId, $a_customerId, $a_startDate, $a_returnDate, $a_
 		// get db connection
 		$db = getConnection(); 
 		
-		$stmt = $db->prepare($sql); 
+		$statement = $db->prepare($sql); 
 		
-		$stmt->bindParam("carId_placeholder", $a_carId);
-		$stmt->bindParam("customerId_placeholder", $a_customerId); 
-		$stmt->bindParam("startDate_placeholder", $a_startDate);
-		$stmt->bindParam("returnDate_placeholder", $a_returnDate);
-		$stmt->bindParam("hirePrice_placeholder", $a_hirePrice);
+		$statement->bindParam("carId_placeholder", $a_carId);
+		$statement->bindParam("customerId_placeholder", $a_customerId); 
+		$statement->bindParam("startDate_placeholder", $a_startDate);
+		$statement->bindParam("returnDate_placeholder", $a_returnDate);
+		$statement->bindParam("hirePrice_placeholder", $a_hirePrice);
 		
-		$stmt->execute(); 
+		$statement->execute(); 
 		
 		// close db connection
 		$db = null;
@@ -512,17 +512,17 @@ function createCustomer($an_email, $a_salt, $a_hash, $a_firstName, $a_lastName, 
 		// get db connection
 		$db = getConnection(); 
 		
-		$stmt = $db->prepare($sql); 
+		$statement = $db->prepare($sql); 
 		
-		$stmt->bindParam("email_placeholder", $an_email);
-		$stmt->bindParam("salt_placeholder", $a_salt); 
-		$stmt->bindParam("authKey_placeholder", $a_hash);
-		$stmt->bindParam("firstName_placeholder", $a_firstName);
-		$stmt->bindParam("lastName_placeholder", $a_lastName);
-		$stmt->bindParam("licenceNo_placeholder", $a_licenceNo);
-		$stmt->bindParam("mobile_placeholder", $a_mobile);
+		$statement->bindParam("email_placeholder", $an_email);
+		$statement->bindParam("salt_placeholder", $a_salt); 
+		$statement->bindParam("authKey_placeholder", $a_hash);
+		$statement->bindParam("firstName_placeholder", $a_firstName);
+		$statement->bindParam("lastName_placeholder", $a_lastName);
+		$statement->bindParam("licenceNo_placeholder", $a_licenceNo);
+		$statement->bindParam("mobile_placeholder", $a_mobile);
 		
-		$stmt->execute(); 
+		$statement->execute(); 
 		
 		// close db connection
 		$db = null;
@@ -553,13 +553,13 @@ function dropOffCar($bookingNo, $actualReturnDate, $odometerFinish)
 		// get db connection
 		$db = getConnection(); 
 		
-		$stmt = $db->prepare($sql); 
+		$statement = $db->prepare($sql); 
 			
-		$stmt->bindParam("bookingNo_placeholder", $bookingNo);
-		$stmt->bindParam("actualReturnDate_placeholder", $actualReturnDate);
-		$stmt->bindParam("odom_placeholder", $odometerFinish);
+		$statement->bindParam("bookingNo_placeholder", $bookingNo);
+		$statement->bindParam("actualReturnDate_placeholder", $actualReturnDate);
+		$statement->bindParam("odom_placeholder", $odometerFinish);
 		
-		$stmt->execute(); 
+		$statement->execute(); 
 		
 		// close db connection
 		$db = null;
