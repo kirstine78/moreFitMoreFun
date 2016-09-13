@@ -2,13 +2,13 @@
 
 curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Anton/3895016ea20bc731c5f539fa4c283f55/
 
-curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb5948/
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/399a56c65ba9945fcc90f2a27fb92a2c/
 
 
 
 // Authenticate a Customer but invalid
 
-curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb59xx/
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/399a56c65ba9945fcc90f2a27fb92axx/
 curl -i -X GET http://localhost/sites/Health/index.php/authenticate/anton/3895016ea20bc731c5f539fa4c283f55/
 
 
@@ -41,7 +41,7 @@ curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/ant123
 // get customer
 
 curl -i -X GET http://localhost/sites/Health/index.php/customer/Anton/3895016ea20bc731c5f539fa4c283f55/
-curl -i -X GET http://localhost/sites/Health/index.php/customer/Bob/590a7813ec4d8efed2c228ca62cb5948/
+curl -i -X GET http://localhost/sites/Health/index.php/customer/Bob/399a56c65ba9945fcc90f2a27fb92a2c/
 
 
 
@@ -53,13 +53,13 @@ curl -i -X GET http://localhost/sites/Health/index.php/run/1/Anton/3895016ea20bc
 
 // create run
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "date": "2016-03-17", "routeName": "The oval", "km": "5", "seconds": "19500", "feeling": "tired in legs"}' http://localhost/sites/Health/index.php/run/
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "cc564f9bcca9b57c7387d3a1a5efa83f", "date": "2016-03-17", "routeName": "The oval", "km": "5", "seconds": "19500", "feeling": "tired in legs"}' http://localhost/sites/Health/index.php/run/
 
 
 
 // delete run
 
-curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "runId": "3"}' http://localhost/sites/Health/index.php/run/
+curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "cc564f9bcca9b57c7387d3a1a5efa83f", "runId": "3"}' http://localhost/sites/Health/index.php/run/
 
 
 
