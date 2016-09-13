@@ -12,20 +12,20 @@ Use MoreFitMoreFun;
 Create Table If Not Exists tblCustomer
 (
  fldCustomerId				MEDIUMINT 		Not Null AUTO_INCREMENT,
- fldEmail					VarChar(40) 	Not Null,
  fldName					VarChar(20) 	Not Null,
+ fldEmail					VarChar(40) 	Not Null,
  fldSalt					char(10),
  fldAuthenticationKey		char(32) 		Not Null,
  
  Constraint tblCustomer_pk Primary Key (fldCustomerId),
- UNIQUE KEY fldEmail (fldEmail)
+ UNIQUE KEY fldName (fldName)
  ) Engine=InnoDB Default Charset=utf8;
  
-INSERT INTO tblCustomer VALUES (1, 'anton@mail.com', 'Anton', 	'Q6Q8amXOwG', '3895016ea20bc731c5f539fa4c283f55');
-INSERT INTO tblCustomer VALUES (2, 'bob@mail.com', 'Bob', 		'Xb0fIgdOxu', '590a7813ec4d8efed2c228ca62cb5948');
-INSERT INTO tblCustomer VALUES (3, 'cat@mail.com', 'Cathy', 	'fziPHfkLE4', 'c8202b82a60c83cd7b1d47ded73a6910');
-INSERT INTO tblCustomer VALUES (4, 'donna@mail.com', 'Donna', 	'tgHK4NWuYk', 'd96f3c18be16f75925bfc67243a0ffbc');
-INSERT INTO tblCustomer VALUES (5, 'eve@mail.com', 'Eve', 		'Y2wkSBzKgT', '54c8249405cd7623ba8a7a6cdcd18f18');
+INSERT INTO tblCustomer VALUES (1, 'Anton',	'anton@mail.com',  	'Q6Q8amXOwG', '3895016ea20bc731c5f539fa4c283f55');
+INSERT INTO tblCustomer VALUES (2, 'Bob', 	'bob@mail.com', 	'Xb0fIgdOxu', '590a7813ec4d8efed2c228ca62cb5948');
+INSERT INTO tblCustomer VALUES (3, 'Cathy',	'cat@mail.com',  	'fziPHfkLE4', 'c8202b82a60c83cd7b1d47ded73a6910');
+INSERT INTO tblCustomer VALUES (4, 'Donna',	'donna@mail.com',  	'tgHK4NWuYk', 'd96f3c18be16f75925bfc67243a0ffbc');
+INSERT INTO tblCustomer VALUES (5, 'Eve',	'eve@mail.com',  	'Y2wkSBzKgT', '54c8249405cd7623ba8a7a6cdcd18f18');
 
 
 
