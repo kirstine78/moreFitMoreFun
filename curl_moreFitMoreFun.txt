@@ -73,7 +73,7 @@ curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "1", "emai
 
 curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "updated@mail", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
 
-curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "null", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": null, "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
 
 
 
