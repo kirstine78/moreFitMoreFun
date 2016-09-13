@@ -5,12 +5,22 @@ curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/anto
 curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/bob@mail.com/590a7813ec4d8efed2c228ca62cb5948
 
 
+
 // Authenticate a Customer but invalid
 
+curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/authenticate/bob@mail.com/590a7813ec4d8efed2c228ca62cb59xx
 
 
 
+// Register a Customer
 
+curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "email@email.com", "name": "myName", "password": "thisIsMyPassword"}' http://localhost/sites/MoreFitMoreFun/index.php/customer/
+
+
+
+// Try Register a Customer but where email is not unique
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "bob@mail.com", "name": "myName", "password": "thisIsMyPassword"}' http://localhost/sites/MoreFitMoreFun/index.php/customer/
 
 
 

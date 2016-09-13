@@ -166,6 +166,42 @@ function eraseRun($runId)
 
 
 
+// retrieve Customer
+function retrieveCustomer($an_email) 
+{	
+	// build sql string
+	$sql = "SELECT * FROM tblCustomer WHERE fldEmail=:email_placeholder"; 
+	
+	// get db connection
+	$databaseConnection = getConnection(); 	
+		
+	try
+	{ 	
+		$statement = $databaseConnection->prepare($sql);		
+		
+		// bind parameters
+		$statement->bindParam("email_placeholder", $an_email); 
+		
+		$statement->execute(); 	
+		$row = $statement->fetch(PDO::FETCH_OBJ); 	// fetch because zero or one row
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		// return the retrieved row
+		return $row; 
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+	} 	
+}
+
+
 function retrieveCustomerBasedOnEmailAndAuthKey($an_email, $an_authKey)
 {	
 	// get db connection
@@ -205,8 +241,8 @@ function retrieveCustomerBasedOnEmailAndAuthKey($an_email, $an_authKey)
 function createCustomer($an_email, $a_name, $a_salt, $a_hash)
 {
 	// build sql string
-	$sql = "INSERT INTO tblCustomer (fldEmail, fldSalt, fldAuthenticationKey, fldFirstName, fldLastName, fldLicenceNo, fldMobile) 
-			VALUES (:email_placeholder, :salt_placeholder, :authKey_placeholder, :firstName_placeholder, :lastName_placeholder, :licenceNo_placeholder, :mobile_placeholder)";
+	$sql = "INSERT INTO tblCustomer (fldEmail, fldName, fldSalt, fldAuthenticationKey) 
+			VALUES (:email_placeholder, :name_placeholder, :salt_placeholder, :authKey_placeholder)";
 			
 	try {
 		// get db connection
@@ -215,12 +251,9 @@ function createCustomer($an_email, $a_name, $a_salt, $a_hash)
 		$statement = $db->prepare($sql); 
 		
 		$statement->bindParam("email_placeholder", $an_email);
+		$statement->bindParam("name_placeholder", $a_name);
 		$statement->bindParam("salt_placeholder", $a_salt); 
 		$statement->bindParam("authKey_placeholder", $a_hash);
-		$statement->bindParam("firstName_placeholder", $a_firstName);
-		$statement->bindParam("lastName_placeholder", $a_lastName);
-		$statement->bindParam("licenceNo_placeholder", $a_licenceNo);
-		$statement->bindParam("mobile_placeholder", $a_mobile);
 		
 		$statement->execute(); 
 		

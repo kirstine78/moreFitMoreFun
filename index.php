@@ -15,7 +15,7 @@ $app->get('/authenticate/:anEmail/:anAuthKey', 'authenticateUser');
 
 // POST routes
 $app->post('/run/', 'makeRun'); 
-$app->post('/customer', 'registerCustomer'); 
+$app->post('/customer/', 'registerCustomer'); 
 
 
 // PUT routes
@@ -282,7 +282,7 @@ function registerCustomer()
 		$hashValue = $hashArray[1];
 		
 		// function in databaseFunctions.php return boolean
-		$insertResult = createCustomer($requestBody->email, $salt, $hashValue, $requestBody->firstName, $requestBody->lastName, $requestBody->licenceNo, $requestBody->mobile); 		
+		$insertResult = createCustomer($requestBody->email, $requestBody->name, $salt, $hashValue); 		
 		
 		if ($insertResult) // true comes back. successful insert
 		{
