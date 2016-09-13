@@ -83,6 +83,42 @@ function createRun($date, $routeName, $km, $seconds, $feeling, $customerId)
 
 
 
+function eraseRun($runId)
+{	
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string
+	$sql = "DELETE FROM tblRun WHERE fldRunId = :runId_placeholder";
+	
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("runId_placeholder", $runId);
+		
+		$statement->execute();	
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		return true;
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+		
+		return false;
+	}
+}
+
+
+
 // Returns a reference to a PDO Database connection object.
 function getConnection()
 {	

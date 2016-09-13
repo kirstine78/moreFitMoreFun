@@ -16,6 +16,9 @@ $app->get('/run/:aCustomerId/:anEmail/:anAuthKey/', 'getRuns');
 $app->post('/run/', 'makeRun'); 
 
 
+// DELETE routes
+$app->delete('/run/', 'deleteRun'); 
+
 
 function getRuns($customerId, $email, $authKey)
 {		
@@ -87,6 +90,54 @@ function makeRun()
 	// }
 	
 	echo json_encode($insertResult);  // boolean
+}
+
+
+function deleteRun()
+{
+	global $app;
+	
+	// use slim to get a reference to the HTTP response object to be able to modify it 
+	$response = $app->response();
+	$response->header('Content-type', 'application/json');	
+	
+	// ajax restriction. Ajax by default can't make cross domain requests.
+	// only needed for browser, not when run from phone
+	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	$response->header('Access-Control-Allow-Origin', '*'); 
+	
+	// use slim to get the contents of the HTTP PUT request 
+	$request = $app->request();
+	
+	// the request is in JSON format so we need to decode it 
+	$requestBody = json_decode($request->getBody());	
+	
+	// TODO authenticate user
+	
+	// $authenticateResult = isAuthKeyAndEmailOk($q->email, $q->authenticationKey); 
+	// echo $authenticateResult["VALID"] . "\n";  // boolean
+	
+	$deleteResult = false;
+	
+	// function in databaseFunctions.php return boolean
+	$deleteResult = eraseRun($requestBody->runId);	
+	
+	// TODO check credentials first
+	// if authenticate OK
+	// if ($authenticateResult["VALID"] == "true")
+	// {
+		// // echo "inside auth key ok\n";
+		
+		// // check again that dates don't collide with other dates for this Customer
+		// if (areDatesColliding($q->customerId, $q->startDate, $q->returnDate) == false)
+		// {
+			// // No collision, OK to insert row
+			// // function in databaseFunctions.php return boolean
+			// $deleteResult = createBooking($q->carId, $q->customerId, $q->startDate, $q->returnDate, $q->hirePricePay);			
+		// }		
+	// }
+	
+	echo json_encode($deleteResult);  // boolean	
 }
 
 
