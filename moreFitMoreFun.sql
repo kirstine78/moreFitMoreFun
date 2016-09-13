@@ -36,7 +36,7 @@ Create Table If Not Exists tblRun
  fldDate 					date			Not null,
  fldRouteName				VarChar(20),
  fldKm						double(4, 2),
- fldTime					double(4, 2),
+ fldSeconds					int,
  fldFeeling					VarChar(20),
  fldCustomerId				MEDIUMINT 		Not Null,
  
@@ -44,9 +44,9 @@ Create Table If Not Exists tblRun
  Constraint tblRun_Customer_fk Foreign Key (fldCustomerId) References tblCustomer (fldCustomerId)
  ) Engine=InnoDB Default Charset=utf8;
  
- INSERT INTO tblRun VALUES (1, '2016-02-15', 'Intro + 4 rounds', 5.5, 32.22, 'IA', 1);
- INSERT INTO tblRun VALUES (2, '2016-08-31', 'Intro + 4 rounds', 5.5, 32.35, 'IA', 2);
- INSERT INTO tblRun VALUES (3, '2016-09-11', 'Intro + 4 rounds', 5.5, 45.22, 'IA', 3);
+ INSERT INTO tblRun VALUES (1, '2016-02-15', 'Intro + 4 rounds', 5.5, 1800, 'IA', 1);
+ INSERT INTO tblRun VALUES (2, '2016-08-31', 'Intro + 4 rounds', 5.5, 1920, 'IA', 2);
+ INSERT INTO tblRun VALUES (3, '2016-09-11', 'Intro + 4 rounds', 5.5, 1900, 'IA', 3);
  
 
  
