@@ -22,6 +22,7 @@ $app->post('/customer/', 'registerCustomer');  // fixed
 
 // PUT routes
 $app->put('/run/', 'updateRun');
+$app->put('/customer/:customerId/', 'updateCustomer');
 
 
 // DELETE routes
@@ -233,6 +234,72 @@ function getCustomer($a_name, $an_authKey)
 	echo json_encode($row);
 }
 
+
+// PUT - update a Customer return record after update (null if error)
+function updateCustomer($a_customerId)
+{ 
+	global $app;
+	
+	// use slim to get a reference to the HTTP response object to be able to modify it 
+	$response = $app->response();
+	$response->header('Content-type', 'application/json');	
+	
+	// ajax restriction. Ajax by default can't make cross domain requests.
+	// only needed for browser, not when run from phone
+	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	$response->header('Access-Control-Allow-Origin', '*'); 
+	
+	// use slim to get the contents of the HTTP PUT request 
+	$request = $app->request();
+	
+	// the request is in JSON format so we need to decode it 
+	$requestBody = json_decode($request->getBody());
+	
+	// authenticate user
+	$authenticateResult = isAuthKeyAndNameOk($requestBody->name, $requestBody->authenticationKey); 
+		
+	// echo $authenticateResult["VALID"] . "\n";  // boolean
+	
+	$saveResult = false;
+	$row = null;
+	
+	// if authenticate OK
+	if ($authenticateResult["VALID"] == "true")
+	{
+		// echo "inside auth key ok\n";
+		
+		// update row process	
+		// if password == '' password changes should NOT happen
+		if ($requestBody->password == '')
+		{			
+			// echo "password is empty\n";
+			// function in databaseFunctions.php return boolean
+			$saveResult = saveUpdatesCustomerEmail($a_customerId, $requestBody->email); 			
+		}
+		else  // password change should happen
+		{
+			// new password means new auth key. 
+			$password = $requestBody->password;
+			// echo  "password: ".$password . "\n";
+			$hashArray = doHashing($password);
+					
+			$salt = $hashArray[0];
+			$hashValue = $hashArray[1];
+			
+			// function in databaseFunctions.php return boolean
+			$saveResult = saveUpdatesCustomer($a_customerId, $requestBody->email, $salt, $hashValue); 
+		}		 
+	}
+	
+	// get record for customer
+	if ($saveResult)
+	{
+		$row = retrieveCustomer($requestBody->name);
+	}
+	
+	// echo out row represented in json format {  }
+	echo json_encode($row);
+} // end function
 
 
 // authenticate if name and auth key are correct

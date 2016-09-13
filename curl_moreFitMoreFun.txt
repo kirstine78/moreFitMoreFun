@@ -68,6 +68,28 @@ curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "5", "e
 curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "1", "email": "anton@mail.com", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2015-10-27", "routeName": "The oval", "km": "42", "seconds": "195200", "feeling": "tired in body", "runId": "1"}' http://localhost/sites/Health/index.php/run/
 
 
+
+// Update details Customer - all
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "updated@mail", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "null", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
+
+
+
+// Update details Customer - just email
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "anton@mail.com", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
+
+
+
+// Update details Customer Invalid credentials
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283fxx", "email": "anton@mail.com", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "anton@mail.com", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
+
+
 ============================================================================================================
 
 // Register a Customer

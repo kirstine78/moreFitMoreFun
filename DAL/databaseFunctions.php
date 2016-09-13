@@ -274,6 +274,81 @@ function createCustomer($a_name, $an_email, $a_salt, $a_hash)
 }
 
 
+
+// update a Customer just Email
+function saveUpdatesCustomerEmail($a_customerId, $an_email)
+{	
+	// build sql string
+	$sql = "UPDATE tblCustomer SET fldEmail = :email_placeholder 
+			WHERE fldCustomerId=:id_placeholder";
+	
+	try {
+		// get db connection
+		$db = getConnection(); 
+		
+		$statement = $db->prepare($sql); 
+		
+		$statement->bindParam("id_placeholder", $a_customerId);
+		$statement->bindParam("email_placeholder", $an_email);
+		
+		$statement->execute(); 
+		
+		// close db connection
+		$db = null;
+		
+		return true;
+	}
+	catch (PDOException $e)
+	{ 
+		if ($db != null) 
+		{
+			$db = null; 			
+		}
+		echo $e->getMessage();
+		return false;
+	}	
+} // end function
+
+
+
+// update a Customer email and password
+function saveUpdatesCustomer($a_customerId, $an_email, $a_salt, $a_hashValue)
+{	
+	// build sql string
+	$sql = "UPDATE tblCustomer SET fldEmail = :email_placeholder, fldSalt=:salt_placeholder, fldAuthenticationKey=:hash_placeholder  
+			WHERE fldCustomerId=:id_placeholder";
+	
+	try {
+		// get db connection
+		$db = getConnection(); 
+		
+		$statement = $db->prepare($sql); 
+		
+		$statement->bindParam("id_placeholder", $a_customerId);
+		$statement->bindParam("email_placeholder", $an_email); 
+		$statement->bindParam("salt_placeholder", $a_salt);
+		$statement->bindParam("hash_placeholder", $a_hashValue);
+		
+		$statement->execute(); 
+		
+		// close db connection
+		$db = null;
+		
+		return true;
+	}
+	catch (PDOException $e)
+	{ 
+		if ($db != null) 
+		{
+			$db = null; 			
+		}
+		echo $e->getMessage();
+		return false;
+	}	
+} // end function
+
+
+
 // Returns a reference to a PDO Database connection object.
 function getConnection()
 {	
