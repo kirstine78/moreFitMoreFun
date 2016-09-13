@@ -275,7 +275,7 @@ function registerCustomer()
 	// only if Name is unique then generate salt and create hash value from (password + salt)
 	if ($isNameUnique)
 	{	
-		echo "Name unique\n";
+		// echo "Name unique\n";
 		$password = $requestBody->password;
 		// echo  "password: ".$password . "\n";
 		$hashArray = doHashing($password);
