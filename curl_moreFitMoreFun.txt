@@ -1,15 +1,15 @@
 // Authenticate a Customer
 
-curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Anton/3895016ea20bc731c5f539fa4c283f55
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Anton/3895016ea20bc731c5f539fa4c283f55/
 
-curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb5948
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb5948/
 
 
 
 // Authenticate a Customer but invalid
 
-curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb59xx
-curl -i -X GET http://localhost/sites/Health/index.php/authenticate/anton/3895016ea20bc731c5f539fa4c283f55
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/Bob/590a7813ec4d8efed2c228ca62cb59xx/
+curl -i -X GET http://localhost/sites/Health/index.php/authenticate/anton/3895016ea20bc731c5f539fa4c283f55/
 
 
 
@@ -25,10 +25,23 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "anton", "email
 
 
 
+// password validation
+
+curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/ant123/Anton/3895016ea20bc731c5f539fa4c283f55/
+
+
+
+// password validation - INVALID
+
+curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/ant123/Anton/3895016ea20bc731c5f539fa4c283fxx/
+curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/ant123/anton/3895016ea20bc731c5f539fa4c283f55/
+
+
+
 // get customer
 
-curl -i -X GET http://localhost/sites/Health/index.php/customer/Anton/3895016ea20bc731c5f539fa4c283f55
-curl -i -X GET http://localhost/sites/Health/index.php/customer/Bob/590a7813ec4d8efed2c228ca62cb5948
+curl -i -X GET http://localhost/sites/Health/index.php/customer/Anton/3895016ea20bc731c5f539fa4c283f55/
+curl -i -X GET http://localhost/sites/Health/index.php/customer/Bob/590a7813ec4d8efed2c228ca62cb5948/
 
 
 

@@ -10,8 +10,9 @@ $app = new Slim();
 
 // GET routes
 $app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');  // fixed
-$app->get('/authenticate/:aName/:anAuthKey', 'authenticateUser');  // fixed 
-$app->get('/customer/:aName/:anAuthKey', 'getCustomer');
+$app->get('/authenticate/:aName/:anAuthKey/', 'authenticateUser');  // fixed 
+$app->get('/customer/:aName/:anAuthKey/', 'getCustomer');
+$app->get('/passwordValidation/:aPassword/:aName/:anAuthKey/', 'verifyPasswordIsCorrect');
 
 
 // POST routes
@@ -386,6 +387,51 @@ function generateRandomString($length)
     return $randomString;
 }
 
+
+
+function verifyPasswordIsCorrect($a_password, $a_name, $an_authKey)
+{		
+	global $app;
+	
+	// use slim to get a reference to the HTTP response object to be able to modify it 
+	$response = $app->response();
+	$response->header('Content-type', 'application/json');	
+	
+	// ajax restriction. Ajax by default can't make cross domain requests.
+	// only needed for browser, not when run from phone
+	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	$response->header('Access-Control-Allow-Origin', '*'); 
+	
+	// authenticate user
+	$authenticateResult = isAuthKeyAndNameOk($a_name, $an_authKey); 
+	// echo $authenticateResult["VALID"] . "\n";  // boolean	
+	
+	// set $resultArray
+	$resultArray = array("VALID"=>"false");
+	
+	// if authenticate OK
+	if ($authenticateResult["VALID"] == "true")
+	{
+		// echo "inside auth key ok";
+		// get customer
+		// function in databaseFunctions.php
+		$row = retrieveCustomer($a_name);  // function in databaseFunctions.php
+		
+		// check if hash(password + salt) will be == authenticationKey in row
+		$hashArray = doHashing($a_password, $row->fldSalt);
+		
+		// $salt = $hashArray[0];
+		$hashValue = $hashArray[1];
+		
+		if ($hashValue == $row->fldAuthenticationKey)
+		{
+			// echo "password is correct";
+			// update $resultArray
+			$resultArray = array("VALID"=>"true");	
+		}
+	}	
+	echo json_encode($resultArray);	
+}
 
 $app->run();
 exit();
