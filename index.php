@@ -11,6 +11,7 @@ $app = new Slim();
 // GET routes
 $app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');  // fixed
 $app->get('/authenticate/:aName/:anAuthKey', 'authenticateUser');  // fixed 
+$app->get('/customer/:aName/:anAuthKey', 'getCustomer');
 
 
 // POST routes
@@ -197,6 +198,40 @@ function deleteRun()
 	
 	echo json_encode($deleteResult);  // boolean	
 }
+
+
+
+// GET Customer
+function getCustomer($a_name, $an_authKey) 
+{		
+		
+	global $app;
+	
+	// use slim to get a reference to the HTTP response object to be able to modify it 
+	$response = $app->response();
+	$response->header('Content-type', 'application/json');	
+	
+	// ajax restriction. Ajax by default can't make cross domain requests.
+	// only needed for browser, not when run from phone
+	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	$response->header('Access-Control-Allow-Origin', '*'); 
+	
+	$row = null;
+	
+	// authenticate user
+	$authenticateResult = isAuthKeyAndNameOk($a_name, $an_authKey);	
+	
+	// if authenticate OK
+	if ($authenticateResult["VALID"] == "true")
+	{
+		// get the customer
+		$row = retrieveCustomer($a_name);  // function in databaseFunctions.php
+	}
+	
+	// echo out row represented in json format {  }
+	echo json_encode($row);
+}
+
 
 
 // authenticate if name and auth key are correct

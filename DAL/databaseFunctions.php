@@ -170,7 +170,7 @@ function eraseRun($runId)
 function retrieveCustomer($aName) 
 {	
 	// build sql string
-	$sql = "SELECT * FROM tblCustomer WHERE fldNAme = :name_placeholder"; 
+	$sql = "SELECT * FROM tblCustomer WHERE fldName = :name_placeholder"; 
 	
 	// get db connection
 	$databaseConnection = getConnection(); 	

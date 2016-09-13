@@ -25,10 +25,16 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "anton", "email
 
 
 
+// get customer
+
+curl -i -X GET http://localhost/sites/Health/index.php/customer/Anton/3895016ea20bc731c5f539fa4c283f55
+curl -i -X GET http://localhost/sites/Health/index.php/customer/Bob/590a7813ec4d8efed2c228ca62cb5948
+
+
+
 // get runs
 
 curl -i -X GET http://localhost/sites/Health/index.php/run/1/Anton/3895016ea20bc731c5f539fa4c283f55/
-curl -i -X GET http://localhost/sites/Health/index.php/run/2/bob@mail.com/590a7813ec4d8efed2c228ca62cb5948/
 
 
 
