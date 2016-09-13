@@ -1,0 +1,166 @@
+// get runs
+
+curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/run/1/anton@mail.com/3895016ea20bc731c5f539fa4c283f55/
+curl -i -X GET http://localhost/sites/MoreFitMoreFun/index.php/run/2/bob@mail.com/590a7813ec4d8efed2c228ca62cb5948/
+
+
+
+// create run
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "date": "2016-03-17", "routeName": "The oval", "km": "5", "seconds": "19500", "feeling": "tired in legs"}' http://localhost/sites/MoreFitMoreFun/index.php/run/
+
+
+
+// delete run
+
+curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "runId": "3"}' http://localhost/sites/MoreFitMoreFun/index.php/run/
+
+
+
+// Update run
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "1", "email": "anton@mail.com", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2015-10-27", "routeName": "The oval", "km": "42", "seconds": "195200", "feeling": "tired in body", "runId": "1"}' http://localhost/sites/MoreFitMoreFun/index.php/run/
+
+
+============================================================================================================
+
+// Register a Customer
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "email@email.com", "password": "thisIsMyPassword", "firstName": "myFirstName", "lastName": "myLastName", "licenceNo": "123456789", "mobile": "8080808080"}' http://localhost/sites/ITC33A/EzyCar/index.php/customer
+
+
+
+// Try Register a Customer but where email is not unique
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "anton@mail.com", "password": "somePassword", "firstName": "Peter", "lastName": "Larsen", "licenceNo": "123123123", "mobile": "5555555555"}' http://localhost/sites/ITC33A/EzyCar/index.php/customer
+
+
+
+
+// Authenticate a Customer
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/authenticate/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/authenticate/cathy@mail.com/c8202b82a60c83cd7b1d47ded73a6910
+
+
+
+// Authenticate a Customer but invalid
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/authenticate/cathy@mail.com/c8202b82a60c83cd7b1d47ded73a69kk
+
+
+
+// password validation
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/passwordValidation/ant123/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+
+
+
+// password validation - INVALID
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/passwordValidation/ant123456/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+
+
+
+
+
+// get suburbs
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/suburbs
+
+
+
+// get customer
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/customer/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+
+
+
+
+// get customer - invalid credentials
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/customer/anton@mail.com/3895016ea20bc731c5f539fa4c283xxx
+
+
+
+
+// get bookings
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/bookings/5/karo@mail.com/54c8249405cd7623ba8a7a6cdcd18f18
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/bookings/1/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+
+
+
+// unreturned bookings
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/unreturnedbookings/5/karo@mail.com/54c8249405cd7623ba8a7a6cdcd18f18
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/unreturnedbookings/1/anton@mail.com/3895016ea20bc731c5f539fa4c283f55
+
+
+
+
+// Search for available Cars
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/cars/available/1/2016-10-19/2016-10-26
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/cars/available/3/2016-10-19/2016-10-26
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/cars/available/3/2016-11-22/2016-11-29
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/cars/available/3/2016-11-19/2016-11-23
+
+
+
+// Hire a Car
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "karo@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "carId": "3", "startDate": "2018-07-10", "returnDate": "2018-07-12", "hirePricePay": "95"}' http://localhost/sites/ITC33A/EzyCar/index.php/bookings
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "karo@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "carId": "3", "startDate": "2018-09-10", "returnDate": "2018-09-12", "hirePricePay": "95"}' http://localhost/sites/ITC33A/EzyCar/index.php/bookings
+
+
+
+// Hire a Car Date Collision 
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "karo@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "carId": "9", "startDate": "2016-03-17", "returnDate": "2016-03-18", "hirePricePay": "95"}' http://localhost/sites/ITC33A/EzyCar/index.php/bookings
+
+
+
+
+// collision ws
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/collision/5/2016-03-15/2016-04-15
+
+curl -i -X GET http://localhost/sites/ITC33A/EzyCar/index.php/collision/5/2020-03-15/2020-04-15
+
+
+
+// Return a Car
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"email": "brian@mail.com", "authenticationKey": "590a7813ec4d8efed2c228ca62cb5948", "bookingNo": "6", "actualReturnDate": "2016-09-09", "odometerFinish": "1500"}' http://localhost/sites/ITC33A/EzyCar/index.php/bookings
+
+
+
+// Update details Customer - all
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"email": "karo@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f18", "mobile": "0556000000", "password": "aNewPassword123"}' http://localhost/sites/ITC33A/EzyCar/index.php/customer/5
+
+
+
+// Update details Customer - just mobile
+
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"email": "brian@mail.com", "authenticationKey": "590a7813ec4d8efed2c228ca62cb5948", "mobile": "9999999999", "password": ""}' http://localhost/sites/ITC33A/EzyCar/index.php/customer/2
+
+
+
+// Update details Customer Invalid credentials
+ 
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"email": "karo@mail.com", "authenticationKey": "54c8249405cd7623ba8a7a6cdcd18f17", "mobile": "0556693339", "password": "aNewPassword123"}' http://localhost/sites/ITC33A/EzyCar/index.php/customer/5
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
