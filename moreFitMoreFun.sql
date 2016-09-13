@@ -21,11 +21,12 @@ Create Table If Not Exists tblCustomer
  UNIQUE KEY fldName (fldName)
  ) Engine=InnoDB Default Charset=utf8;
  
+-- password ant123, bob123 etc
 INSERT INTO tblCustomer VALUES (1, 'Anton',	'anton@mail.com',  	'Q6Q8amXOwG', '3895016ea20bc731c5f539fa4c283f55');
-INSERT INTO tblCustomer VALUES (2, 'Bob', 	'bob@mail.com', 	'Xb0fIgdOxu', '590a7813ec4d8efed2c228ca62cb5948');
-INSERT INTO tblCustomer VALUES (3, 'Cathy',	'cat@mail.com',  	'fziPHfkLE4', 'c8202b82a60c83cd7b1d47ded73a6910');
-INSERT INTO tblCustomer VALUES (4, 'Donna',	null,		  	'tgHK4NWuYk', 'd96f3c18be16f75925bfc67243a0ffbc');
-INSERT INTO tblCustomer VALUES (5, 'Eve',	'eve@mail.com',  	'Y2wkSBzKgT', '54c8249405cd7623ba8a7a6cdcd18f18');
+INSERT INTO tblCustomer VALUES (2, 'Bob', 	'bob@mail.com', 	'VunD2Ll7Oc', '399a56c65ba9945fcc90f2a27fb92a2c');
+INSERT INTO tblCustomer VALUES (3, 'Cathy',	'cat@mail.com',  	'Osl2FAdYd0', 'af33dc1fe1756f4049302605b77fd955');
+INSERT INTO tblCustomer VALUES (4, 'Donna',	null,		  		'N9iC5AIVQL', 'defd4c5d11c35d07932be4e858925177');
+INSERT INTO tblCustomer VALUES (5, 'Eve',	'eve@mail.com',  	'xfkGTyl4n8', 'cc564f9bcca9b57c7387d3a1a5efa83f');
 
 
 
