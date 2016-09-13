@@ -83,6 +83,53 @@ function createRun($date, $routeName, $km, $seconds, $feeling, $customerId)
 
 
 
+function editRun($runId, $date, $routeName, $km, $seconds, $feeling)
+{
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string
+	$sql = "UPDATE tblRun 
+			SET fldDate=:date_placeholder, 
+				fldRouteName = :routeName_placeholder, 
+				fldKm = :km_placeholder, 
+				fldSeconds = :seconds_placeholder, 
+				fldFeeling = :feeling_placeholder
+			WHERE fldRunId = :runId_placeholder";
+	
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("date_placeholder", $date);
+		$statement->bindParam("routeName_placeholder", $routeName);
+		$statement->bindParam("km_placeholder", $km);
+		$statement->bindParam("seconds_placeholder", $seconds);
+		$statement->bindParam("feeling_placeholder", $feeling);
+		$statement->bindParam("runId_placeholder", $runId);
+		
+		$statement->execute();	
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		return true;
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+		
+		return false;
+	}
+}
+
+
+
 function eraseRun($runId)
 {	
 	// get database connection
