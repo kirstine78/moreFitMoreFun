@@ -205,6 +205,48 @@ function retrieveRoutes($customerId)
 
 
 
+
+function editRoute($routeId, $routeName, $routeKm)
+{
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string
+	$sql = "UPDATE tblRoute 
+			SET fldRouteName = :routeName_placeholder, 
+				fldRouteKm = :km_placeholder
+			WHERE fldRouteId = :routeId_placeholder";
+	
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("routeName_placeholder", $routeName);
+		$statement->bindParam("km_placeholder", $routeKm);
+		$statement->bindParam("routeId_placeholder", $routeId);
+		
+		$statement->execute();	
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		return true;
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+		
+		return false;
+	}
+}
+
+
+
 // retrieve Customer
 function retrieveCustomer($aName) 
 {	
