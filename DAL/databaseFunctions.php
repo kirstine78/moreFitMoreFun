@@ -166,6 +166,46 @@ function eraseRun($runId)
 
 
 
+function createRunKnownRoute($date, $seconds, $feeling, $routeId)
+{
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string
+	$sql = "INSERT INTO tblRunKnownRoute (fldDateKnownRoute, fldSecondsKnownRoute, fldFeelingKnownRoute, fldRouteId) 
+			VALUES (:date_placeholder, :seconds_placeholder, :feeling_placeholder, :routeId_placeholder)";
+	
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("date_placeholder", $date);
+		$statement->bindParam("seconds_placeholder", $seconds);
+		$statement->bindParam("feeling_placeholder", $feeling);
+		$statement->bindParam("routeId_placeholder", $routeId);
+		
+		$statement->execute();	
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		return true;
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+		
+		return false;
+	}	
+}
+
+
+
 // retrieve Routes for specific customer
 function retrieveRoutes($customerId)
 {
