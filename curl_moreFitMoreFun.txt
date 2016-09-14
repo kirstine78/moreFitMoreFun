@@ -69,6 +69,12 @@ curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "1", "emai
 
 
 
+// create run known route
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "1", "name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2016-03-17", "seconds": "19500", "feeling": "tired in legs", "routeId": "1"}' http://localhost/sites/Health/index.php/runKnownRoute/
+
+
+
 // get routes
 
 curl -i -X GET http://localhost/sites/Health/index.php/route/1/Anton/3895016ea20bc731c5f539fa4c283f55/
