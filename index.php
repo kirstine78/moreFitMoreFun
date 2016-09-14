@@ -264,8 +264,11 @@ function makeRoute()
 	
 	$insertResult = false;
 	
+	// TODO check that routeKm is not empty
+	
+	
 	// function in databaseFunctions.php return boolean
-	$insertResult = createRoute($requestBody->routeName, $requestBody->routeKm, $requestBody->customerId);	
+	$insertResult = createRoute($requestBody->routeName, $requestBody->routeDistance, $requestBody->customerId);	
 	
 	// TODO check credentials first
 	// if authenticate OK

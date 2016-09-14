@@ -205,14 +205,14 @@ function retrieveRoutes($customerId)
 
 
 
-function createRoute($routeName, $routeKm, $customerId)
+function createRoute($routeName, $routeDistance, $customerId)
 {
 	// get database connection
 	$databaseConnection = getConnection(); 	
 	
 	// build sql string
-	$sql = "INSERT INTO tblRoute (fldRouteName, fldRouteKm, fldCustomerId) 
-			VALUES (:routeName_placeholder, :km_placeholder, :customerId_placeholder)";
+	$sql = "INSERT INTO tblRoute (fldRouteName, fldRouteDistance, fldCustomerId) 
+			VALUES (:routeName_placeholder, :distance_placeholder, :customerId_placeholder)";
 	
 	try
 	{ 		
@@ -220,7 +220,7 @@ function createRoute($routeName, $routeKm, $customerId)
 		
 		// bind parameters
 		$statement->bindParam("routeName_placeholder", $routeName);
-		$statement->bindParam("km_placeholder", $routeKm);
+		$statement->bindParam("distance_placeholder", $routeDistance);
 		$statement->bindParam("customerId_placeholder", $customerId);
 		
 		$statement->execute();	
