@@ -55,7 +55,7 @@ Create Table If Not Exists tblRoute
 (
  fldRouteId					MEDIUMINT 		Not Null AUTO_INCREMENT,
  fldRouteName				VarChar(20)		Not Null,
- fldRouteKm					double(4, 2),
+ fldRouteKm					double(4, 2)	Not Null,
  fldCustomerId				MEDIUMINT 		Not Null,
  
  Constraint tblRoute_pk Primary Key (fldRouteId),
