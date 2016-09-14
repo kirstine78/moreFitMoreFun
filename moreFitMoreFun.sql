@@ -35,7 +35,7 @@ Create Table If Not Exists tblRun
 (
  fldRunId					MEDIUMINT 		Not Null AUTO_INCREMENT,
  fldDate 					date			Not null,
- fldKm						double(4, 2),
+ fldDistance				double(4, 2),
  fldSeconds					int,
  fldFeeling					VarChar(20),
  fldCustomerId				MEDIUMINT 		Not Null,
