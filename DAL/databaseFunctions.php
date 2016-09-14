@@ -41,14 +41,14 @@ function retrieveRuns($customerId)
 
 
 
-function createRun($date, $routeName, $km, $seconds, $feeling, $customerId)
+function createRun($date, $distance, $seconds, $feeling, $customerId)
 {
 	// get database connection
 	$databaseConnection = getConnection(); 	
 	
 	// build sql string
-	$sql = "INSERT INTO tblRun (fldDate, fldRouteName, fldKm, fldSeconds, fldFeeling, fldCustomerId) 
-			VALUES (:date_placeholder, :routeName_placeholder, :km_placeholder, :seconds_placeholder, :feeling_placeholder, :customerId_placeholder)";
+	$sql = "INSERT INTO tblRun (fldDate, fldDistance, fldSeconds, fldFeeling, fldCustomerId) 
+			VALUES (:date_placeholder, :distance_placeholder, :seconds_placeholder, :feeling_placeholder, :customerId_placeholder)";
 	
 	try
 	{ 		
@@ -56,8 +56,7 @@ function createRun($date, $routeName, $km, $seconds, $feeling, $customerId)
 		
 		// bind parameters
 		$statement->bindParam("date_placeholder", $date);
-		$statement->bindParam("routeName_placeholder", $routeName);
-		$statement->bindParam("km_placeholder", $km);
+		$statement->bindParam("distance_placeholder", $distance);
 		$statement->bindParam("seconds_placeholder", $seconds);
 		$statement->bindParam("feeling_placeholder", $feeling);
 		$statement->bindParam("customerId_placeholder", $customerId);

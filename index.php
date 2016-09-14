@@ -90,7 +90,7 @@ function makeRun()
 	
 	// function in databaseFunctions.php return boolean
 	$insertResult = createRun(	$requestBody->date, $requestBody->routeName, 
-								$requestBody->km, $requestBody->seconds, 
+								$requestBody->distance, $requestBody->seconds, 
 								$requestBody->feeling, $requestBody->customerId );	
 	
 	// TODO check credentials first
