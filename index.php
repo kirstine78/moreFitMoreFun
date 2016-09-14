@@ -89,9 +89,9 @@ function makeRun()
 	$insertResult = false;
 	
 	// function in databaseFunctions.php return boolean
-	$insertResult = createRun(	$requestBody->date, $requestBody->routeName, 
-								$requestBody->distance, $requestBody->seconds, 
-								$requestBody->feeling, $requestBody->customerId );	
+	$insertResult = createRun(	$requestBody->date, $requestBody->distance, 
+								$requestBody->seconds, $requestBody->feeling, 
+								$requestBody->customerId );	
 	
 	// TODO check credentials first
 	// if authenticate OK
