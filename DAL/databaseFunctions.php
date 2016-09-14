@@ -166,6 +166,45 @@ function eraseRun($runId)
 
 
 
+// retrieve Routes for specific customer
+function retrieveRoutes($customerId)
+{
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string
+	$sql = "SELECT * FROM tblRoute WHERE fldCustomerId = :id_placeholder"; 
+	
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("id_placeholder", $customerId);
+		
+		$statement->execute();	
+		
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		// return the retrieved rows in an array
+		// If no rows are retrieved then row is null, and null is returned
+		return $row; 
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+	} 
+}
+
+
+
 // retrieve Customer
 function retrieveCustomer($aName) 
 {	

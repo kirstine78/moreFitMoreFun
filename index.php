@@ -13,6 +13,8 @@ $app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');  // fixed
 $app->get('/authenticate/:aName/:anAuthKey/', 'authenticateUser');  // fixed 
 $app->get('/customer/:aName/:anAuthKey/', 'getCustomer');
 $app->get('/passwordValidation/:aPassword/:aName/:anAuthKey/', 'verifyPasswordIsCorrect');
+$app->get('/route/:aCustomerId/:aName/:anAuthKey/', 'getRoutes');
+
 
 
 // POST routes
@@ -199,6 +201,33 @@ function deleteRun()
 	// }
 	
 	echo json_encode($deleteResult);  // boolean	
+}
+
+
+
+/**
+retrieve all routes for specific customer
+*/
+function getRoutes($customerId, $name, $authKey)
+{		
+	global $app;
+	
+	// TODO check credentials first be sure to check for case sensitiveness
+	
+	// use slim to get a reference to the HTTP response object to be able to modify it 
+	$response = $app->response();
+	$response->header('Content-type', 'application/json');	
+	
+	// ajax restriction. Ajax by default can't make cross domain requests.
+	// only needed for browser, not when run from phone
+	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	$response->header('Access-Control-Allow-Origin', '*'); 
+	
+	$row = retrieveRoutes($customerId);  // function in databaseFunctions.php return rows or null
+		
+	// echo out the Array of all rows represented in json format  [{},{}]
+	// If no rows are retrieved then $row == null and an empty array is returned (NB. null is NOT returned!!!)
+	echo json_encode($row);
 }
 
 
