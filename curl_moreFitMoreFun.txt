@@ -69,6 +69,13 @@ curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "1", "emai
 
 
 
+// get routes
+
+curl -i -X GET http://localhost/sites/Health/index.php/route/1/Anton/3895016ea20bc731c5f539fa4c283f55/
+curl -i -X GET http://localhost/sites/Health/index.php/route/5/Eve/cc564f9bcca9b57c7387d3a1a5efa83f/
+
+
+
 // Update details Customer - all
 
 curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "updated@mail", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
