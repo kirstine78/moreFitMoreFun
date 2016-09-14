@@ -56,14 +56,16 @@ Create Table If Not Exists tblRoute
  fldRouteId					MEDIUMINT 		Not Null AUTO_INCREMENT,
  fldRouteName				VarChar(20)		Not Null,
  fldRouteKm					double(4, 2),
+ fldCustomerId				MEDIUMINT 		Not Null,
  
  Constraint tblRoute_pk Primary Key (fldRouteId),
+ Constraint tblRoute_Customer_fk Foreign Key (fldCustomerId) References tblCustomer (fldCustomerId),
  UNIQUE KEY fldRouteName (fldRouteName)
  ) Engine=InnoDB Default Charset=utf8;
  
- INSERT INTO tblRoute VALUES (1, 'Intro + 4 rounds', 	5.5);
- INSERT INTO tblRoute VALUES (2, 'Oval 10 rounds', 		4.0);
- INSERT INTO tblRoute VALUES (3, 'Oval 8 rounds', 		3.0);
+ INSERT INTO tblRoute VALUES (1, 'Intro + 4 rounds', 	5.5,	1);
+ INSERT INTO tblRoute VALUES (2, 'Oval 10 rounds', 		4.0,	2);
+ INSERT INTO tblRoute VALUES (3, 'Oval 8 rounds', 		3.0,	2);
  
  
 
@@ -74,17 +76,15 @@ Create Table If Not Exists tblRunKnownRoute
  fldDateKnownRoute 			date			Not null,
  fldSecondsKnownRoute		int,
  fldFeelingKnownRoute		VarChar(20),
- fldCustomerId				MEDIUMINT 		Not Null,
  fldRouteId					MEDIUMINT 		Not Null,
  
  Constraint tblRunKnownRoute_pk Primary Key (fldRunKnownRouteId),
- Constraint tblRunKnownRoute_Customer_fk Foreign Key (fldCustomerId) References tblCustomer (fldCustomerId),
  Constraint tblRunKnownRoute_Route_fk Foreign Key (fldRouteId) References tblRoute (fldRouteId)
  ) Engine=InnoDB Default Charset=utf8;
  
- INSERT INTO tblRunKnownRoute VALUES (1, '2016-02-15', 1800, 'IA', 1, 3);
- INSERT INTO tblRunKnownRoute VALUES (2, '2016-08-31', 1920, 'IA', 1, 1);
- INSERT INTO tblRunKnownRoute VALUES (3, '2016-09-11', 1900, 'IA', 2, 1);
+ INSERT INTO tblRunKnownRoute VALUES (1, '2016-02-15', 1800, 'IA', 3);
+ INSERT INTO tblRunKnownRoute VALUES (2, '2016-08-31', 1920, 'IA', 1);
+ INSERT INTO tblRunKnownRoute VALUES (3, '2016-09-11', 1900, 'IA', 1);
  
  
 
