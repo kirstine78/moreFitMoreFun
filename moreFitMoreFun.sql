@@ -59,8 +59,7 @@ Create Table If Not Exists tblRoute
  fldCustomerId				MEDIUMINT 		Not Null,
  
  Constraint tblRoute_pk Primary Key (fldRouteId),
- Constraint tblRoute_Customer_fk Foreign Key (fldCustomerId) References tblCustomer (fldCustomerId),
- UNIQUE KEY fldRouteName (fldRouteName)
+ Constraint tblRoute_Customer_fk Foreign Key (fldCustomerId) References tblCustomer (fldCustomerId)
  ) Engine=InnoDB Default Charset=utf8;
  
  INSERT INTO tblRoute VALUES (1, 'Intro + 4 rounds', 	5.5,	1);
