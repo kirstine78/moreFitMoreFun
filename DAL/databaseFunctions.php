@@ -276,7 +276,7 @@ function createRoute($routeName, $routeDistance, $customerId)
 	$databaseConnection = getConnection(); 	
 	
 	// build sql string
-	$sql = "INSERT INTO tblRoute (fldRouteName, fldRouteDistance, fldCustomerId) 
+	$sql = "INSERT INTO tblRoute (fldRouteName, fldRouteDistance, fldRouteCustomerId) 
 			VALUES (:routeName_placeholder, :distance_placeholder, :customerId_placeholder)";
 	
 	try
