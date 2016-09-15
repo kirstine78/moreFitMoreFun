@@ -91,7 +91,7 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "nam
 
 // Update route
 
-curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "2", "email": "bob@mail.com", "authenticationKey": "399a56c65ba9945fcc90f2a27fb92a2c", "routeName": "Lake run", "routeKm": "10", "routeId": "2"}' http://localhost/sites/Health/index.php/route/
+curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "2", "name": "Bob", "authenticationKey": "399a56c65ba9945fcc90f2a27fb92a2c", "routeName": "Lake Tahoe run", "routeDistance": "10", "routeId": "2"}' http://localhost/sites/Health/index.php/route/
 
 
 

@@ -271,7 +271,7 @@ function createRoute($routeName, $routeDistance, $customerId)
 
 
 
-function editRoute($routeId, $routeName, $routeKm)
+function editRoute($routeId, $routeName, $routeDistance)
 {
 	// get database connection
 	$databaseConnection = getConnection(); 	
@@ -279,7 +279,7 @@ function editRoute($routeId, $routeName, $routeKm)
 	// build sql string
 	$sql = "UPDATE tblRoute 
 			SET fldRouteName = :routeName_placeholder, 
-				fldRouteKm = :km_placeholder
+				fldRouteDistance = :distance_placeholder
 			WHERE fldRouteId = :routeId_placeholder";
 	
 	try
@@ -288,7 +288,7 @@ function editRoute($routeId, $routeName, $routeKm)
 		
 		// bind parameters
 		$statement->bindParam("routeName_placeholder", $routeName);
-		$statement->bindParam("km_placeholder", $routeKm);
+		$statement->bindParam("distance_placeholder", $routeDistance);
 		$statement->bindParam("routeId_placeholder", $routeId);
 		
 		$statement->execute();	
