@@ -323,7 +323,7 @@ function updateRoute()
 	$updateResult = false;
 	
 	// function in databaseFunctions.php return boolean
-	$updateResult = editRoute($requestBody->routeId, $requestBody->routeName, $requestBody->routeKm);	
+	$updateResult = editRoute($requestBody->routeId, $requestBody->routeName, $requestBody->routeDistance);	
 	
 	// TODO check credentials first
 	// if authenticate OK
