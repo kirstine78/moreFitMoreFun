@@ -53,8 +53,8 @@ curl -i -X GET http://localhost/sites/Health/index.php/run/1/Anton/3895016ea20bc
 
 // create run
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "email": "eve@mail.com", "authenticationKey": "cc564f9bcca9b57c7387d3a1a5efa83f", "date": "2016-03-17", "routeName": "The oval", "km": "5", "seconds": "19500", "feeling": "tired in legs"}' http://localhost/sites/Health/index.php/run/
-
+curl -i -X POST -H 'Content-Type: application/json' -d '{"runCustomerId": "5", "name": "Eve", "authenticationKey": "cc564f9bcca9b57c7387d3a1a5efa83f", "date": "2016-03-17", "distance": "5", "seconds": "19500", "feeling": "tired in legs", "runRouteId": null}' http://localhost/sites/Health/index.php/run/
+curl -i -X POST -H 'Content-Type: application/json' -d '{"runCustomerId": "1", "name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2016-08-17", "distance": null, "seconds": "55500", "feeling": "good", "runRouteId": "4"}' http://localhost/sites/Health/index.php/run/
 
 
 // delete run
