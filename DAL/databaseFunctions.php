@@ -238,7 +238,7 @@ function retrieveRoutes($customerId)
 	$databaseConnection = getConnection(); 	
 	
 	// build sql string
-	$sql = "SELECT * FROM tblRoute WHERE fldCustomerId = :id_placeholder"; 
+	$sql = "SELECT * FROM tblRoute WHERE fldRouteCustomerId = :id_placeholder"; 
 	
 	try
 	{ 		
