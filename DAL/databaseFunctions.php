@@ -9,8 +9,32 @@ function retrieveRuns($customerId)
 	$databaseConnection = getConnection(); 	
 	
 	// build sql string
-	$sql = "SELECT * FROM tblRun WHERE fldCustomerId = :id_placeholder"; 
+	// $sql = "SELECT * FROM tblRun WHERE fldCustomerId = :id_placeholder"; 
 	
+	$sql = "SELECT run.fldRunId, 
+			run.fldDate, 
+			route.fldRouteName, 
+			route.fldRouteDistance as fldDistance, 
+			run.fldSeconds, 
+			run.fldFeeling, 
+			run.fldRunCustomerId as fldCustomerId, 
+			run.fldRunRouteId as fldRouteId
+			FROM tblrun run, tblRoute route
+			WHERE (run.fldRunRouteId = route.fldRouteId AND route.fldRouteCustomerId = :id_placeholder) 
+
+			UNION
+
+			SELECT 	fldRunId, 
+					fldDate, 
+					fldBlankRouteName as fldRouteName, 
+					fldDistance, 
+					fldSeconds, 
+					fldFeeling, 
+					fldRunCustomerId as fldCustomerId, 
+					fldRunRouteId as fldRouteId
+			FROM tblrun
+			WHERE fldRunCustomerId = :id_placeholder AND fldRunRouteId is null";
+			
 	try
 	{ 		
 		$statement = $databaseConnection->prepare($sql); 
