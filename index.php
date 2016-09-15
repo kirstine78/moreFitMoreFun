@@ -12,7 +12,7 @@ $app = new Slim();
 
 
 // GET routes
-$app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');  // fixed
+$app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getAllTypeOfRuns');  // fixed
 $app->get('/authenticate/:aName/:anAuthKey/', 'authenticateUser');  // fixed 
 $app->get('/customer/:aName/:anAuthKey/', 'getCustomer');
 $app->get('/passwordValidation/:aPassword/:aName/:anAuthKey/', 'verifyPasswordIsCorrect');
@@ -39,9 +39,11 @@ $app->delete('/run/', 'deleteRun');
 ///////////////////////////////////////////// End routes /////////////////////////////////////////////
 
 
-function getRuns($customerId, $name, $authKey)
+function getAllTypeOfRuns($customerId, $name, $authKey)
 {		
 	global $app;
+	
+	// TODO combine runs with and without routes
 	
 	// TODO check credentials first be sure to check for case sensitiveness
 	
