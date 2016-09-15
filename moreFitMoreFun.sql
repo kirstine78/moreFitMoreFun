@@ -45,6 +45,7 @@ Create Table If Not Exists tblRoute
  INSERT INTO tblRoute VALUES (1, 'Intro + 4 rounds', 	5.5,	1);
  INSERT INTO tblRoute VALUES (2, 'Oval 10 rounds', 		4.0,	2);
  INSERT INTO tblRoute VALUES (3, 'Oval 8 rounds', 		3.0,	2);
+ INSERT INTO tblRoute VALUES (4, 'Lake run', 			15.0,	1);
  
   
  
@@ -56,6 +57,7 @@ Create Table If Not Exists tblRun
  fldDistance				double(4, 2),
  fldSeconds					int,
  fldFeeling					VarChar(20),
+ fldBlankRouteName			VarChar(20),
  fldRunCustomerId			MEDIUMINT		Not Null,
  fldRunRouteId				MEDIUMINT,
  
@@ -64,9 +66,9 @@ Create Table If Not Exists tblRun
  Constraint tblRun_Route_fk Foreign Key (fldRunRouteId) References tblRoute (fldRouteId)
  ) Engine=InnoDB Default Charset=utf8;
  
- INSERT INTO tblRun VALUES (1, '2016-02-15', 5.5, 	1800, 'Tired', 		1,	null);
- INSERT INTO tblRun VALUES (2, '2016-08-31', 5.5, 	1920, 'Fresh legs', 2,	null);
- INSERT INTO tblRun VALUES (3, '2016-09-11', null, 	1900, 'Pain knee', 	1,	1);
+ INSERT INTO tblRun VALUES (1, '2016-02-15', 5.5, 	1800, 'Tired', 		null,	1,	null);
+ INSERT INTO tblRun VALUES (2, '2016-08-31', 5.5, 	1920, 'Fresh legs', null,	2,	null);
+ INSERT INTO tblRun VALUES (3, '2016-09-11', null, 	1900, 'Pain knee', 	null,	1,	1);
  
  
 
