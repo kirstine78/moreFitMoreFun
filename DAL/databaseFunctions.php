@@ -33,7 +33,8 @@ function retrieveRuns($customerId)
 					fldRunCustomerId as fldCustomerId, 
 					fldRunRouteId as fldRouteId
 			FROM tblrun
-			WHERE fldRunCustomerId = :id_placeholder AND fldRunRouteId is null";
+			WHERE fldRunCustomerId = :id_placeholder AND fldRunRouteId is null
+			order by fldDate desc";
 			
 	try
 	{ 		
