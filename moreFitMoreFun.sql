@@ -56,8 +56,8 @@ Create Table If Not Exists tblRun
  fldDate 					date			Not null,
  fldDistance				double(4, 2),
  fldSeconds					int,
- fldFeeling					VarChar(20),
- fldBlankRouteName			VarChar(20),
+ fldFeeling					VarChar(50),
+ fldBlankRouteName			VarChar(10),
  fldRunCustomerId			MEDIUMINT		Not Null,
  fldRunRouteId				MEDIUMINT,
  
