@@ -109,7 +109,8 @@ function createRun($date, $distance, $seconds, $feeling, $blankRouteName, $runCu
 
 
 
-function editRun($runId, $date, $routeName, $km, $seconds, $feeling)
+function editRun($runId, $date, $distance, $seconds, $feeling, $blankRouteName, $runCustomerId, $runRouteId)
+
 {
 	// get database connection
 	$databaseConnection = getConnection(); 	
@@ -117,23 +118,37 @@ function editRun($runId, $date, $routeName, $km, $seconds, $feeling)
 	// build sql string
 	$sql = "UPDATE tblRun 
 			SET fldDate=:date_placeholder, 
-				fldRouteName = :routeName_placeholder, 
-				fldKm = :km_placeholder, 
+				fldDistance = :distance_placeholder, 
 				fldSeconds = :seconds_placeholder, 
-				fldFeeling = :feeling_placeholder
-			WHERE fldRunId = :runId_placeholder";
+				fldFeeling = :feeling_placeholder,
+				fldBlankRouteName = :blankRouteName_placeholder,
+				fldRunRouteId = :routeId_placeholder
+			WHERE fldRunId = :runId_placeholder AND fldRunCustomerId = :customerId_placeholder";
 	
 	try
 	{ 		
 		$statement = $databaseConnection->prepare($sql); 
 		
-		// bind parameters
+		$statement->bindParam("runId_placeholder", $runId);
 		$statement->bindParam("date_placeholder", $date);
-		$statement->bindParam("routeName_placeholder", $routeName);
-		$statement->bindParam("km_placeholder", $km);
+		$statement->bindParam("distance_placeholder", $distance);
 		$statement->bindParam("seconds_placeholder", $seconds);
 		$statement->bindParam("feeling_placeholder", $feeling);
-		$statement->bindParam("runId_placeholder", $runId);
+		$statement->bindParam("blankRouteName_placeholder", $blankRouteName);
+		$statement->bindParam("customerId_placeholder", $runCustomerId);
+		$statement->bindParam("routeId_placeholder", $runRouteId);
+		
+		// bind parameters
+		// $statement->bindParam("date_placeholder", $date);
+		// $statement->bindParam("routeName_placeholder", $routeName);
+		// $statement->bindParam("distance_placeholder", $distance);
+		// $statement->bindParam("seconds_placeholder", $seconds);
+		// $statement->bindParam("feeling_placeholder", $feeling);
+		// $statement->bindParam("runId_placeholder", $runId);
+		
+		
+		
+		
 		
 		$statement->execute();	
 		

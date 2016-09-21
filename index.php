@@ -143,9 +143,15 @@ function updateRun()
 	$updateResult = false;
 	
 	// function in databaseFunctions.php return boolean
-	$updateResult = editRun($requestBody->runId, $requestBody->date, 
-							$requestBody->routeName, $requestBody->km, 
-							$requestBody->seconds, $requestBody->feeling);	
+	$updateResult = editRun($requestBody->runId, 
+							$requestBody->date, 
+							$requestBody->distance, 
+							$requestBody->seconds, 
+							$requestBody->feeling, 
+							null,
+							$requestBody->runCustomerId,
+							$requestBody->runRouteId );	
+	
 	
 	// TODO check credentials first
 	// if authenticate OK
