@@ -376,10 +376,11 @@ function deleteRoute()
 	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
 	// echo $authenticateResult["VALID"] . "\n";  // boolean
 	
+	$editRunResult = false;
 	$deleteResult = false;
 	
 	// find all runs that are attached to the routeId (return array)
-	$rowsRuns = retrieveRunsWithAttachedRoute($requestBody->routeCustomerId, $requestBody->routeId);  // function in databaseFunctions.php return rows or null
+	$rowsRuns = retrieveRunsWithAttachedRoute($requestBody->customerId, $requestBody->routeId);  // function in databaseFunctions.php return rows or null
 	
 	$amountRunRecords = count($rowsRuns);
 	// echo "length of rowsRuns: " . $amountRunRecords . "\n";
@@ -404,23 +405,22 @@ function deleteRoute()
 										$rowsRuns[$i]->fldRunCustomerId, 
 										null);	
 			
-			if ($editRunResult == true)
+			if ($editRunResult == false)
 			{
-				$deleteResult = true;
-			}
-			else
-			{
-				$deleteResult = false;
 				break;
 			}
 		}
 	}
+	else
+	{
+		$editRunResult = true;
+	}
 	
 	// if updating runs that was attached to route is successful then proceed with deleting the route
-	if ($deleteResult == true)
+	if ($editRunResult == true)
 	{
 		// function in databaseFunctions.php return boolean
-		$deleteResult = eraseRoute($requestBody->routeId, $requestBody->routeCustomerId);		
+		$deleteResult = eraseRoute($requestBody->routeId, $requestBody->customerId);		
 	}		
 	
 	// TODO check credentials first
