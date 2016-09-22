@@ -12,7 +12,7 @@ $app = new Slim();
 
 
 // GET routes
-$app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');  // fixed
+$app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');
 $app->get('/authenticate/:aName/:anAuthKey/', 'authenticateUser');
 $app->get('/customer/:aName/:anAuthKey/', 'getCustomer');
 $app->get('/passwordValidation/:aPassword/:aName/:anAuthKey/', 'verifyPasswordIsCorrect');
@@ -20,7 +20,7 @@ $app->get('/route/:aCustomerId/:aName/:anAuthKey/', 'getRoutes');
 
 
 // POST routes
-$app->post('/run/', 'makeRun');    // fixed 
+$app->post('/run/', 'makeRun');
 $app->post('/customer/', 'registerCustomer');
 $app->post('/route/', 'makeRoute'); 
 
@@ -33,6 +33,7 @@ $app->put('/route/', 'updateRoute');
 
 // DELETE routes
 $app->delete('/run/', 'deleteRun'); 
+$app->delete('/route/', 'deleteRoute'); 
 
 
 ///////////////////////////////////////////// End routes /////////////////////////////////////////////
@@ -200,7 +201,7 @@ function deleteRun()
 	$deleteResult = false;
 	
 	// function in databaseFunctions.php return boolean
-	$deleteResult = eraseRun($requestBody->runId);	
+	$deleteResult = eraseRun($requestBody->runId, $requestBody->runCustomerId);	
 	
 	// TODO check credentials first
 	// if authenticate OK
@@ -350,6 +351,95 @@ function updateRoute()
 } // end function
 
 
+
+function deleteRoute()
+{
+	global $app;
+	
+	// use slim to get a reference to the HTTP response object to be able to modify it 
+	$response = $app->response();
+	$response->header('Content-type', 'application/json');	
+	
+	// ajax restriction. Ajax by default can't make cross domain requests.
+	// only needed for browser, not when run from phone
+	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	$response->header('Access-Control-Allow-Origin', '*'); 
+	
+	// use slim to get the contents of the HTTP PUT request 
+	$request = $app->request();
+	
+	// the request is in JSON format so we need to decode it 
+	$requestBody = json_decode($request->getBody());	
+	
+	// TODO authenticate user
+	
+	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
+	// echo $authenticateResult["VALID"] . "\n";  // boolean
+	
+	$deleteResult = false;
+	
+	// find all runs that are attached to the routeId (return array)
+	$rowsRuns = retrieveRunsWithAttachedRoute($requestBody->routeCustomerId, $requestBody->routeId);  // function in databaseFunctions.php return rows or null
+	
+	$amountRunRecords = count($rowsRuns);
+	// echo "length of rowsRuns: " . $amountRunRecords . "\n";
+	
+	// check if array contains any runs to be updated
+	if ($amountRunRecords > 0)
+	{
+		// get the route record so you can get the route distance
+		$rowRoute = retrieveRouteByRouteId($requestBody->routeId);
+		// echo "length of rowRoute: " . count($rowRoute) . "\n";
+				
+		// update all these runs so fldDistance is set to the route distance and fldRunRouteId is set to null
+		for ($i = 0; $i < $amountRunRecords; $i++)
+		{
+			// echo "loop\n";
+			$editRunResult = editRun(	$rowsRuns[$i]->fldRunId, 
+										$rowsRuns[$i]->fldDate, 
+										$rowRoute[0]->fldRouteDistance,
+										$rowsRuns[$i]->fldSeconds, 
+										$rowsRuns[$i]->fldFeeling, 
+										null, 
+										$rowsRuns[$i]->fldRunCustomerId, 
+										null);	
+			
+			if ($editRunResult == true)
+			{
+				$deleteResult = true;
+			}
+			else
+			{
+				$deleteResult = false;
+				break;
+			}
+		}
+	}
+	
+	// if updating runs that was attached to route is successful then proceed with deleting the route
+	if ($deleteResult == true)
+	{
+		// function in databaseFunctions.php return boolean
+		$deleteResult = eraseRoute($requestBody->routeId, $requestBody->routeCustomerId);		
+	}		
+	
+	// TODO check credentials first
+	// if authenticate OK
+	// if ($authenticateResult["VALID"] == "true")
+	// {
+		// // echo "inside auth key ok\n";
+		
+		// // check again that dates don't collide with other dates for this Customer
+		// if (areDatesColliding($requestBody->customerId, $requestBody->startDate, $requestBody->returnDate) == false)
+		// {
+			// // No collision, OK to insert row
+			// // function in databaseFunctions.php return boolean
+			// $deleteResult = createBooking($requestBody->carId, $requestBody->customerId, $requestBody->startDate, $requestBody->returnDate, $requestBody->hirePricePay);			
+		// }		
+	// }
+	
+	echo json_encode($deleteResult);  // boolean	
+}
 
 
 // GET Customer

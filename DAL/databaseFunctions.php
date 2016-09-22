@@ -8,9 +8,7 @@ function retrieveRuns($customerId)
 	// get database connection
 	$databaseConnection = getConnection(); 	
 	
-	// build sql string
-	// $sql = "SELECT * FROM tblRun WHERE fldCustomerId = :id_placeholder"; 
-	
+	// build sql string	
 	$sql = "SELECT run.fldRunId, 
 			run.fldDate, 
 			route.fldRouteName, 
@@ -63,6 +61,49 @@ function retrieveRuns($customerId)
 		echo $e->getMessage(); 
 	} 
 }
+
+
+
+
+function retrieveRunsWithAttachedRoute($customerId, $routeId)
+{
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string	
+	$sql = "SELECT *
+			FROM tblrun
+			WHERE fldRunRouteId = :routeId_placeholder AND fldRunCustomerId = :customerId_placeholder";
+			
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("customerId_placeholder", $customerId);
+		$statement->bindParam("routeId_placeholder", $routeId);
+		
+		$statement->execute();	
+		
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		// return the retrieved rows in an array
+		// If no rows are retrieved then row is null, and null is returned
+		return $row; 
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+	} 
+}
+
 
 
 
@@ -171,13 +212,13 @@ function editRun($runId, $date, $distance, $seconds, $feeling, $blankRouteName, 
 
 
 
-function eraseRun($runId)
+function eraseRun($runId, $runCustomerId)
 {	
 	// get database connection
 	$databaseConnection = getConnection(); 	
 	
 	// build sql string
-	$sql = "DELETE FROM tblRun WHERE fldRunId = :runId_placeholder";
+	$sql = "DELETE FROM tblRun WHERE fldRunId = :runId_placeholder AND fldRunCustomerId = :runCustomerId_placeholder";
 	
 	try
 	{ 		
@@ -185,6 +226,7 @@ function eraseRun($runId)
 		
 		// bind parameters
 		$statement->bindParam("runId_placeholder", $runId);
+		$statement->bindParam("runCustomerId_placeholder", $runCustomerId);
 		
 		$statement->execute();	
 		
@@ -229,6 +271,45 @@ function retrieveRoutes($customerId)
 		
 		$row = $statement->fetchALL(PDO::FETCH_OBJ); 	
 		
+		// close connection
+		$databaseConnection = null; 
+		
+		// return the retrieved rows in an array
+		// If no rows are retrieved then row is null, and null is returned
+		return $row; 
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+	} 
+}
+
+
+
+// retrieve Routes for specific customer
+function retrieveRouteByRouteId($routeId)
+{
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string
+	$sql = "SELECT * FROM tblRoute WHERE fldRouteId = :id_placeholder"; 
+	
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("id_placeholder", $routeId);
+		
+		$statement->execute();	
+		
+		$row = $statement->fetchALL(PDO::FETCH_OBJ); 
+				
 		// close connection
 		$databaseConnection = null; 
 		
@@ -324,6 +405,43 @@ function editRoute($routeId, $routeName, $routeDistance)
 		
 		return false;
 	}
+}
+
+
+
+function eraseRoute($routeId, $routeCustomerId)
+{
+	// get database connection
+	$databaseConnection = getConnection(); 	
+	
+	// build sql string
+	$sql = "DELETE FROM tblRoute WHERE fldRouteId = :routeId_placeholder AND fldRouteCustomerId = :routeCustomerId_placeholder";
+	
+	try
+	{ 		
+		$statement = $databaseConnection->prepare($sql); 
+		
+		// bind parameters
+		$statement->bindParam("routeId_placeholder", $routeId);
+		$statement->bindParam("routeCustomerId_placeholder", $routeCustomerId);
+		
+		$statement->execute();	
+		
+		// close connection
+		$databaseConnection = null; 
+		
+		return true;
+	} 
+	catch (PDOException $e) 
+	{ 
+		if ($databaseConnection != null) 
+		{
+			$databaseConnection = null; 			
+		}
+		echo $e->getMessage(); 
+		
+		return false;
+	}	
 }
 
 
