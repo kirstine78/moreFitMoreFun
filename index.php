@@ -645,9 +645,7 @@ function registerCustomer()
 function loginCustomer($name, $password)
 {		
 	global $app;
-	
-	// TODO check credentials first be sure to check for case sensitiveness
-	
+		
 	// use slim to get a reference to the HTTP response object to be able to modify it 
 	$response = $app->response();
 	$response->header('Content-type', 'application/json');	
