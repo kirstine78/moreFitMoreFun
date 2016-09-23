@@ -13,10 +13,11 @@ $app = new Slim();
 
 // GET routes
 $app->get('/run/:aCustomerId/:aName/:anAuthKey/', 'getRuns');
+$app->get('/route/:aCustomerId/:aName/:anAuthKey/', 'getRoutes');
 $app->get('/authenticate/:aName/:anAuthKey/', 'authenticateUser');
 $app->get('/customer/:aName/:anAuthKey/', 'getCustomer');
 $app->get('/passwordValidation/:aPassword/:aName/:anAuthKey/', 'verifyPasswordIsCorrect');
-$app->get('/route/:aCustomerId/:aName/:anAuthKey/', 'getRoutes');
+$app->get('/login/:aName/:aPassword/', 'loginCustomer');
 
 
 // POST routes
@@ -640,6 +641,51 @@ function registerCustomer()
 }
 
 
+
+function loginCustomer($name, $password)
+{		
+	global $app;
+	
+	// TODO check credentials first be sure to check for case sensitiveness
+	
+	// use slim to get a reference to the HTTP response object to be able to modify it 
+	$response = $app->response();
+	$response->header('Content-type', 'application/json');	
+	
+	// ajax restriction. Ajax by default can't make cross domain requests.
+	// only needed for browser, not when run from phone
+	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	$response->header('Access-Control-Allow-Origin', '*'); 
+		
+	// boolean flag
+	$passwordMatchOk = false;
+	
+	// try to fetch a record with the name from db 
+	$row = retrieveCustomer($name) ;  // function in databaseFunctions.php return rows or null
+	
+	// check if record exists
+	if ($row != false && $row != null)
+	{
+		// check if hash(password entered + salt) matches authKey for the record
+		$passwordMatchOk = doPasswordsMatch($password, $name, $row);
+		
+		if ($passwordMatchOk == false)
+		{
+			// wrong password
+			$row = null;
+		}
+	}	
+	else  // no record exist that matches with name
+	{
+		$row = null;
+	}
+	
+	// echo out the Array of all rows represented in json format  [{},{}]
+	echo json_encode($row);	
+}
+
+
+
 // check if Name is unique and return boolean 
 function isTheNameUnique($aName)
 {
@@ -695,6 +741,51 @@ function generateRandomString($length)
 
 
 
+// function verifyPasswordIsCorrect($a_password, $a_name, $an_authKey)
+// {		
+	// global $app;
+	
+	// // use slim to get a reference to the HTTP response object to be able to modify it 
+	// $response = $app->response();
+	// $response->header('Content-type', 'application/json');	
+	
+	// // ajax restriction. Ajax by default can't make cross domain requests.
+	// // only needed for browser, not when run from phone
+	// // $response->headers->set('Access-Control-Allow-Origin', '*'); 
+	// $response->header('Access-Control-Allow-Origin', '*'); 
+	
+	// // authenticate user
+	// $authenticateResult = isAuthKeyAndNameOk($a_name, $an_authKey); 
+	// // echo $authenticateResult["VALID"] . "\n";  // boolean	
+	
+	// // set $resultArray
+	// $resultArray = array("VALID"=>"false");
+	
+	// // if authenticate OK
+	// if ($authenticateResult["VALID"] == "true")
+	// {
+		// // echo "inside auth key ok";
+		// // get customer
+		// // function in databaseFunctions.php
+		// $row = retrieveCustomer($a_name);  // function in databaseFunctions.php
+		
+		// // check if hash(password + salt) will be == authenticationKey in row
+		// $hashArray = doHashing($a_password, $row->fldSalt);
+		
+		// // $salt = $hashArray[0];
+		// $hashValue = $hashArray[1];
+		
+		// if ($hashValue == $row->fldAuthenticationKey)
+		// {
+			// // echo "password is correct";
+			// // update $resultArray
+			// $resultArray = array("VALID"=>"true");	
+		// }
+	// }	
+	// echo json_encode($resultArray);	
+// }
+
+
 function verifyPasswordIsCorrect($a_password, $a_name, $an_authKey)
 {		
 	global $app;
@@ -718,26 +809,44 @@ function verifyPasswordIsCorrect($a_password, $a_name, $an_authKey)
 	// if authenticate OK
 	if ($authenticateResult["VALID"] == "true")
 	{
-		// echo "inside auth key ok";
 		// get customer
 		// function in databaseFunctions.php
 		$row = retrieveCustomer($a_name);  // function in databaseFunctions.php
 		
-		// check if hash(password + salt) will be == authenticationKey in row
-		$hashArray = doHashing($a_password, $row->fldSalt);
+		$arePasswordsMatching = doPasswordsMatch($a_password, $a_name, $row);
 		
-		// $salt = $hashArray[0];
-		$hashValue = $hashArray[1];
-		
-		if ($hashValue == $row->fldAuthenticationKey)
+		if ($arePasswordsMatching)
 		{
-			// echo "password is correct";
-			// update $resultArray
-			$resultArray = array("VALID"=>"true");	
-		}
+			$resultArray = array("VALID"=>"true");
+		}			
 	}	
 	echo json_encode($resultArray);	
 }
+
+
+
+// return boolean
+function doPasswordsMatch($a_password, $a_name, $a_row)
+{
+	// return boolean value
+	$passwordMatch = false;
+	
+	// check if hash(password + salt) will be == authenticationKey in row
+	$hashArray = doHashing($a_password, $a_row->fldSalt);
+	
+	// $salt = $hashArray[0];
+	$hashValue = $hashArray[1];
+	
+	if ($hashValue == $a_row->fldAuthenticationKey)
+	{
+		// echo "password is correct";
+		// update boolean
+		$passwordMatch = true;	
+	}
+	
+	return $passwordMatch;
+}
+
 
 $app->run();
 exit();

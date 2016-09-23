@@ -119,6 +119,21 @@ curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "Anton", "authen
 curl -i -X PUT -H 'Content-Type: application/json' -d '{"name": "anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "email": "anton@mail.com", "password": "aNewPassword123"}' http://localhost/sites/Health/index.php/customer/1/
 
 
+
+// Login
+
+curl -i -X GET http://localhost/sites/Health/index.php/login/Anton/ant123/
+
+
+
+
+
+
+
+
+
+
+
 ============================================================================================================
 
 // Register a Customer
