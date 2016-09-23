@@ -659,19 +659,27 @@ function loginCustomer($name, $password)
 	$passwordMatchOk = false;
 	
 	// try to fetch a record with the name from db 
-	$row = retrieveCustomer($name) ;  // function in databaseFunctions.php return rows or null
+	$row = retrieveCustomer($name) ;  // function in databaseFunctions.php return row or false...?
 	
 	// check if record exists
 	if ($row != false && $row != null)
 	{
-		// check if hash(password entered + salt) matches authKey for the record
-		$passwordMatchOk = doPasswordsMatch($password, $name, $row);
-		
-		if ($passwordMatchOk == false)
-		{
-			// wrong password
-			$row = null;
+		// case sensitive match
+		if ( (strcmp($row->fldName, $name) == 0) )  // case sensitive match ok
+		{			
+			// check if hash(password entered + salt) matches authKey for the record
+			$passwordMatchOk = doPasswordsMatch($password, $name, $row);
+			
+			if ($passwordMatchOk == false)
+			{
+				// wrong password
+				$row = null;
+			}			
 		}
+		else  // name does not match when case sensitive
+		{			
+			$row = null;
+		}		
 	}	
 	else  // no record exist that matches with name
 	{
