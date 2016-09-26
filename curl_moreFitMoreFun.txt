@@ -126,8 +126,16 @@ curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "2", "name
 
 // Delete route
 
-curl -i -X DELETE -H 'Content-Type: application/json' -d '{"routeCustomerId": "1", "name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "routeId": "1"}' http://localhost/sites/Health/index.php/route/
-// curl -i -X DELETE -H 'Content-Type: application/json' -d '{"routeCustomerId": "6", "name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "routeId": "6"}' http://localhost/sites/Health/index.php/route/
+curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "1", "name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "routeId": "1"}' http://localhost/sites/Health/index.php/route/
+curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "6", "name": "kirsti", "authenticationKey": "fe365106beb6f09e5be40d443dc2bf3d", "routeId": "7"}' http://localhost/sites/Health/index.php/route/
+
+
+
+// Delete route false credentials
+
+curl -i -X DELETE -H 'Content-Type: application/json' -d '{"customerId": "1", "name": "Anton", "authenticationKey": "3845456ea20bc731c5f539fa4c283f55", "routeId": "1"}' http://localhost/sites/Health/index.php/route/
+
+
 
 
 

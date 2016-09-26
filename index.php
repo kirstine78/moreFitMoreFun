@@ -312,72 +312,59 @@ function deleteRoute()
 	// the request is in JSON format so we need to decode it 
 	$requestBody = json_decode($request->getBody());	
 	
-	// TODO authenticate user
+	$deleteResult = null;
 	
-	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
-	// echo $authenticateResult["VALID"] . "\n";  // boolean
+	// authenticate user
+	$resultArr = isAuthKeyAndNameOk($requestBody->name, $requestBody->authenticationKey);	
 	
-	$editRunResult = false;
-	$deleteResult = false;
-	
-	// find all runs that are attached to the routeId (return array)
-	$rowsRuns = retrieveRunsWithAttachedRoute($requestBody->customerId, $requestBody->routeId);  // function in databaseFunctions.php return rows or null
-	
-	$amountRunRecords = count($rowsRuns);
-	// echo "length of rowsRuns: " . $amountRunRecords . "\n";
-	
-	// check if array contains any runs to be updated
-	if ($amountRunRecords > 0)
+	if ($resultArr["VALID"] == "true")
 	{
-		// get the route record so you can get the route distance
-		$rowRoute = retrieveRouteByRouteId($requestBody->routeId);
-		// echo "length of rowRoute: " . count($rowRoute) . "\n";
-				
-		// update all these runs so fldDistance is set to the route distance and fldRunRouteId is set to null
-		for ($i = 0; $i < $amountRunRecords; $i++)
+		$editRunResult = false;
+		
+		// find all runs that are attached to the routeId (return array)
+		$rowsRuns = retrieveRunsWithAttachedRoute($requestBody->customerId, $requestBody->routeId);  // function in databaseFunctions.php return rows or null
+		
+		$amountRunRecords = count($rowsRuns);
+		// echo "length of rowsRuns: " . $amountRunRecords . "\n";
+		
+		// check if array contains any runs to be updated
+		if ($amountRunRecords > 0)
 		{
-			// echo "loop\n";
-			$editRunResult = editRun(	$rowsRuns[$i]->fldRunId, 
-										$rowsRuns[$i]->fldDate, 
-										$rowRoute[0]->fldRouteDistance,
-										$rowsRuns[$i]->fldSeconds, 
-										$rowsRuns[$i]->fldFeeling, 
-										null, 
-										$rowsRuns[$i]->fldRunCustomerId, 
-										null);	
-			
-			if ($editRunResult == false)
+			// get the route record so you can get the route distance
+			$rowRoute = retrieveRouteByRouteId($requestBody->routeId);
+			// echo "length of rowRoute: " . count($rowRoute) . "\n";
+					
+			// update all these runs so fldDistance is set to the route distance and fldRunRouteId is set to null
+			for ($i = 0; $i < $amountRunRecords; $i++)
 			{
-				break;
+				// echo "loop\n";
+				$editRunResult = editRun(	$rowsRuns[$i]->fldRunId, 
+											$rowsRuns[$i]->fldDate, 
+											$rowRoute[0]->fldRouteDistance,
+											$rowsRuns[$i]->fldSeconds, 
+											$rowsRuns[$i]->fldFeeling, 
+											null, 
+											$rowsRuns[$i]->fldRunCustomerId, 
+											null);	
+				
+				if ($editRunResult == false)
+				{
+					break;
+				}
 			}
 		}
-	}
-	else
-	{
-		$editRunResult = true;
-	}
-	
-	// if updating runs that was attached to route is successful then proceed with deleting the route
-	if ($editRunResult == true)
-	{
-		// function in databaseFunctions.php return boolean
-		$deleteResult = eraseRoute($requestBody->routeId, $requestBody->customerId);		
-	}		
-	
-	// TODO check credentials first
-	// if authenticate OK
-	// if ($authenticateResult["VALID"] == "true")
-	// {
-		// // echo "inside auth key ok\n";
+		else
+		{
+			$editRunResult = true;
+		}
 		
-		// // check again that dates don't collide with other dates for this Customer
-		// if (areDatesColliding($requestBody->customerId, $requestBody->startDate, $requestBody->returnDate) == false)
-		// {
-			// // No collision, OK to insert row
-			// // function in databaseFunctions.php return boolean
-			// $deleteResult = createBooking($requestBody->carId, $requestBody->customerId, $requestBody->startDate, $requestBody->returnDate, $requestBody->hirePricePay);			
-		// }		
-	// }
+		// if updating runs that was attached to route is successful then proceed with deleting the route
+		if ($editRunResult == true)
+		{
+			// function in databaseFunctions.php return boolean
+			$deleteResult = eraseRoute($requestBody->routeId, $requestBody->customerId);		
+		}	
+	}
 	
 	echo json_encode($deleteResult);  // boolean	
 }
