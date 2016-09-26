@@ -112,6 +112,12 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "nam
 
 
 
+// create route false credentials
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "name": "Eve", "authenticationKey": "cc56123bcca9b57c7387d3a1a5efa83f", "routeName": "The oval", "routeDistance": "17"}' http://localhost/sites/Health/index.php/route/
+
+
+
 // Update route
 
 curl -i -X PUT -H 'Content-Type: application/json' -d '{"customerId": "2", "name": "Bob", "authenticationKey": "399a56c65ba9945fcc90f2a27fb92a2c", "routeName": "Lake Tahoe run", "routeDistance": "10", "routeId": "2"}' http://localhost/sites/Health/index.php/route/
