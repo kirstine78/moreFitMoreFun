@@ -100,6 +100,12 @@ curl -i -X GET http://localhost/sites/Health/index.php/route/5/Eve/cc564f9bcca9b
 
 
 
+// get routes false credentials
+
+curl -i -X GET http://localhost/sites/Health/index.php/route/1/Anton/3895016ea20bc731c5f539fa4c283f44/
+
+
+
 // create route
 
 curl -i -X POST -H 'Content-Type: application/json' -d '{"customerId": "5", "name": "Eve", "authenticationKey": "cc564f9bcca9b57c7387d3a1a5efa83f", "routeName": "The oval", "routeDistance": "17"}' http://localhost/sites/Health/index.php/route/

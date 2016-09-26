@@ -60,7 +60,7 @@ function getRuns($customerId, $name, $authKey)
 	
 	if ($resultArr["VALID"] == "true")
 	{
-		$row = retrieveRuns($customerId);  // function in databaseFunctions.php return rows or null
+		$row = retrieveRuns($customerId);  // function in databaseFunctions.php
 	}
 	
 	// echo out the Array of all rows represented in json format  [{},{}] (empty array if no rows were found)
@@ -196,8 +196,6 @@ function getRoutes($customerId, $name, $authKey)
 {		
 	global $app;
 	
-	// TODO check credentials first be sure to check for case sensitiveness
-	
 	// use slim to get a reference to the HTTP response object to be able to modify it 
 	$response = $app->response();
 	$response->header('Content-type', 'application/json');	
@@ -207,10 +205,18 @@ function getRoutes($customerId, $name, $authKey)
 	// $response->headers->set('Access-Control-Allow-Origin', '*'); 
 	$response->header('Access-Control-Allow-Origin', '*'); 
 	
-	$row = retrieveRoutes($customerId);  // function in databaseFunctions.php return rows or null
+	$row = null;
+	
+	// authenticate user
+	$resultArr = isAuthKeyAndNameOk($name, $authKey);
+	
+	if ($resultArr["VALID"] == "true")
+	{
+		$row = retrieveRoutes($customerId);  // function in databaseFunctions.php
+	}
 		
-	// echo out the Array of all rows represented in json format  [{},{}]
-	// If no rows are retrieved then $row == null and an empty array is returned (NB. null is NOT returned!!!)
+	// echo out the Array of all rows represented in json format  [{},{}] (empty array if no rows were found)
+	// null is returned if authentication is false
 	echo json_encode($row);
 }
 
