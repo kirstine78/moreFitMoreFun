@@ -31,7 +31,13 @@ curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/ant123
 
 
 
-// password validation - INVALID
+// password validation - INVALID password
+
+curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/anT123/Anton/3895016ea20bc731c5f539fa4c283f55/
+
+
+
+// password validation - false authenticationKey
 
 curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/ant123/Anton/3895016ea20bc731c5f539fa4c283fxx/
 curl -i -X GET http://localhost/sites/Health/index.php/passwordValidation/ant123/anton/3895016ea20bc731c5f539fa4c283f55/

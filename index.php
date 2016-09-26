@@ -366,8 +366,9 @@ function deleteRoute()
 		}	
 	}
 	
-	echo json_encode($deleteResult);  // boolean	
+	echo json_encode($deleteResult);  // boolean (or null if authentication is not ok)		
 }
+
 
 
 // GET Customer
@@ -400,6 +401,7 @@ function getCustomer($a_name, $an_authKey)
 	// echo out row represented in json format {  }
 	echo json_encode($row);
 }
+
 
 
 // PUT - update a Customer return record after update (null if error)
@@ -694,11 +696,14 @@ function verifyPasswordIsCorrect($a_password, $a_name, $an_authKey)
 	// echo $authenticateResult["VALID"] . "\n";  // boolean	
 	
 	// set $resultArray
-	$resultArray = array("VALID"=>"false");
+	$resultArray = null;
 	
 	// if authenticate OK
 	if ($authenticateResult["VALID"] == "true")
 	{
+		// set $resultArray
+		$resultArray = array("VALID"=>"false");
+		
 		// get customer
 		// function in databaseFunctions.php
 		$row = retrieveCustomer($a_name);  // function in databaseFunctions.php
@@ -710,7 +715,7 @@ function verifyPasswordIsCorrect($a_password, $a_name, $an_authKey)
 			$resultArray = array("VALID"=>"true");
 		}			
 	}	
-	echo json_encode($resultArray);	
+	echo json_encode($resultArray);	  // array("VALID"=>"true") or array("VALID"=>"false") (or null if authentication is not ok)	
 }
 
 
