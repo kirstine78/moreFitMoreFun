@@ -106,7 +106,7 @@ function makeRun()
 									$requestBody->runRouteId );	
 	}
 		
-	echo json_encode($insertResult);  // boolean or null if authentication is not ok
+	echo json_encode($insertResult);  // boolean (or null if authentication is not ok)
 }
 
 
@@ -130,40 +130,25 @@ function updateRun()
 	// the request is in JSON format so we need to decode it 
 	$requestBody = json_decode($request->getBody());	
 	
-	// TODO authenticate user
+	$updateResult = null;
 	
-	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
-	// echo $authenticateResult["VALID"] . "\n";  // boolean
+	// authenticate user
+	$resultArr = isAuthKeyAndNameOk($requestBody->name, $requestBody->authenticationKey);	
 	
-	$updateResult = false;
+	if ($resultArr["VALID"] == "true")
+	{
+		// function in databaseFunctions.php return boolean
+		$updateResult = editRun($requestBody->runId, 
+								$requestBody->date, 
+								$requestBody->distance, 
+								$requestBody->seconds, 
+								$requestBody->feeling, 
+								null,
+								$requestBody->runCustomerId,
+								$requestBody->runRouteId );
+	}
 	
-	// function in databaseFunctions.php return boolean
-	$updateResult = editRun($requestBody->runId, 
-							$requestBody->date, 
-							$requestBody->distance, 
-							$requestBody->seconds, 
-							$requestBody->feeling, 
-							null,
-							$requestBody->runCustomerId,
-							$requestBody->runRouteId );	
-	
-	
-	// TODO check credentials first
-	// if authenticate OK
-	// if ($authenticateResult["VALID"] == "true")
-	// {
-		// // echo "inside auth key ok\n";
-		
-		// // check again that dates don't collide with other dates for this Customer
-		// if (areDatesColliding($requestBody->customerId, $requestBody->startDate, $requestBody->returnDate) == false)
-		// {
-			// // No collision, OK to insert row
-			// // function in databaseFunctions.php return boolean
-			// $updateResult = createBooking($requestBody->carId, $requestBody->customerId, $requestBody->startDate, $requestBody->returnDate, $requestBody->hirePricePay);			
-		// }		
-	// }
-	
-	echo json_encode($updateResult);  // boolean	
+	echo json_encode($updateResult);  // boolean (or null if authentication is not ok)
 }
 
 
