@@ -76,6 +76,12 @@ curl -i -X DELETE -H 'Content-Type: application/json' -d '{"runCustomerId": "1",
 
 
 
+// delete run false credentials
+
+curl -i -X DELETE -H 'Content-Type: application/json' -d '{"runCustomerId": "1", "name": "anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "runId": "1"}' http://localhost/sites/Health/index.php/run/
+
+
+
 // Update run
 
 curl -i -X PUT -H 'Content-Type: application/json' -d '{"runCustomerId": "1", "name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2015-10-27", "routeName": null, "distance": "42", "seconds": "195200", "feeling": "tired in body", "runId": "1", "runRouteId": null}' http://localhost/sites/Health/index.php/run/
