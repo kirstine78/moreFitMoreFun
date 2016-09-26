@@ -277,32 +277,18 @@ function updateRoute()
 	// the request is in JSON format so we need to decode it 
 	$requestBody = json_decode($request->getBody());	
 	
-	// TODO authenticate user
+	$updateResult = null;
 	
-	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
-	// echo $authenticateResult["VALID"] . "\n";  // boolean
+	// authenticate user
+	$resultArr = isAuthKeyAndNameOk($requestBody->name, $requestBody->authenticationKey);	
 	
-	$updateResult = false;
+	if ($resultArr["VALID"] == "true")
+	{
+		// function in databaseFunctions.php return boolean
+		$updateResult = editRoute($requestBody->routeId, $requestBody->routeName, $requestBody->routeDistance);	
+	}
 	
-	// function in databaseFunctions.php return boolean
-	$updateResult = editRoute($requestBody->routeId, $requestBody->routeName, $requestBody->routeDistance);	
-	
-	// TODO check credentials first
-	// if authenticate OK
-	// if ($authenticateResult["VALID"] == "true")
-	// {
-		// // echo "inside auth key ok\n";
-		
-		// // check again that dates don't collide with other dates for this Customer
-		// if (areDatesColliding($requestBody->customerId, $requestBody->startDate, $requestBody->returnDate) == false)
-		// {
-			// // No collision, OK to insert row
-			// // function in databaseFunctions.php return boolean
-			// $updateResult = createBooking($requestBody->carId, $requestBody->customerId, $requestBody->startDate, $requestBody->returnDate, $requestBody->hirePricePay);			
-		// }		
-	// }
-	
-	echo json_encode($updateResult);  // boolean	
+	echo json_encode($updateResult);  // boolean (or null if authentication is not ok)	
 } // end function
 
 
