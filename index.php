@@ -55,7 +55,7 @@ function getRuns($customerId, $name, $authKey)
 	
 	$row = null;
 	
-	// check credentials
+	// authenticate user
 	$resultArr = isAuthKeyAndNameOk($name, $authKey);
 	
 	if ($resultArr["VALID"] == "true")
@@ -89,37 +89,24 @@ function makeRun()
 	// the request is in JSON format so we need to decode it 
 	$requestBody = json_decode($request->getBody());	
 	
-	// TODO authenticate user
-	// $authenticateResult = isAuthKeyAndNameOk($requestBody->email, $requestBody->authenticationKey); 
-	// echo $authenticateResult["VALID"] . "\n";  // boolean
+	$insertResult = null;	
 	
-	$insertResult = false;
+	// authenticate user
+	$resultArr = isAuthKeyAndNameOk($requestBody->name, $requestBody->authenticationKey);	
 	
-	// function in databaseFunctions.php return boolean
-	$insertResult = createRun(	$requestBody->date, 
-								$requestBody->distance, 
-								$requestBody->seconds, 
-								$requestBody->feeling, 
-								null, 
-								$requestBody->runCustomerId,
-								$requestBody->runRouteId );	
-	
-	// TODO check credentials first
-	// if authenticate OK
-	// if ($authenticateResult["VALID"] == "true")
-	// {
-		// // echo "inside auth key ok\n";
+	if ($resultArr["VALID"] == "true")
+	{
+		// function in databaseFunctions.php return boolean
+		$insertResult = createRun(	$requestBody->date, 
+									$requestBody->distance, 
+									$requestBody->seconds, 
+									$requestBody->feeling, 
+									null, 
+									$requestBody->runCustomerId,
+									$requestBody->runRouteId );	
+	}
 		
-		// // check again that dates don't collide with other dates for this Customer
-		// if (areDatesColliding($requestBody->customerId, $requestBody->startDate, $requestBody->returnDate) == false)
-		// {
-			// // No collision, OK to insert row
-			// // function in databaseFunctions.php return boolean
-			// $insertResult = createBooking($requestBody->carId, $requestBody->customerId, $requestBody->startDate, $requestBody->returnDate, $requestBody->hirePricePay);			
-		// }		
-	// }
-	
-	echo json_encode($insertResult);  // boolean
+	echo json_encode($insertResult);  // boolean or null if authentication is not ok
 }
 
 
