@@ -48,7 +48,12 @@ curl -i -X GET http://localhost/sites/Health/index.php/customer/Bob/399a56c65ba9
 // get runs
 
 curl -i -X GET http://localhost/sites/Health/index.php/run/1/Anton/3895016ea20bc731c5f539fa4c283f55/
+curl -i -X GET http://localhost/sites/Health/index.php/run/3/Bob/399a56c65ba9945fcc90f2a27fb92a2c/
 
+
+// get runs false authenticationKey
+
+curl -i -X GET http://localhost/sites/Health/index.php/run/1/Anton/3895016ea20bc731c5f539fa4c283f57/
 
 
 // create run
