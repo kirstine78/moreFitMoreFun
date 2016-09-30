@@ -17,7 +17,7 @@ function retrieveRuns($customerId)
 			run.fldFeeling, 
 			run.fldRunCustomerId as fldCustomerId, 
 			run.fldRunRouteId as fldRouteId
-			FROM tblrun run, tblRoute route
+			FROM tblRun run, tblRoute route
 			WHERE (run.fldRunRouteId = route.fldRouteId AND route.fldRouteCustomerId = :id_placeholder) 
 
 			UNION
@@ -30,7 +30,7 @@ function retrieveRuns($customerId)
 					fldFeeling, 
 					fldRunCustomerId as fldCustomerId, 
 					fldRunRouteId as fldRouteId
-			FROM tblrun
+			FROM tblRun
 			WHERE fldRunCustomerId = :id_placeholder AND fldRunRouteId is null
 			order by fldDate desc";
 			
@@ -72,7 +72,7 @@ function retrieveRunsWithAttachedRoute($customerId, $routeId)
 	
 	// build sql string	
 	$sql = "SELECT *
-			FROM tblrun
+			FROM tblRun
 			WHERE fldRunRouteId = :routeId_placeholder AND fldRunCustomerId = :customerId_placeholder";
 			
 	try
