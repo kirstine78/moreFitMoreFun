@@ -69,6 +69,11 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"runCustomerId": "5", "
 
 curl -i -X POST -H 'Content-Type: application/json' -d '{"runCustomerId": "1", "name": "Anton", "authenticationKey": "3895016ea20bc731c5f539fa4c283f55", "date": "2016-08-17", "distance": null, "seconds": "55500", "feeling": "good", "runRouteId": "4"}' http://localhost/sites/Health/index.php/run/
 
+curl -i -X POST -H 'Content-Type: application/json' -d '{"runCustomerId": "3", "name": "Lach", "authenticationKey": "72c6895d6ef81363af134d923b13783f", "date": "2016-08-17", "distance": "55", "seconds": "3600", "feeling": "tired", "runRouteId": null}' http://kirstine.comli.com/sites/Health/index.php/run/
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"runCustomerId": "3", "name": "Lach", "authenticationKey": "72c6895d6ef81363af134d923b13783f", "date": "2016-08-17", "distance": "55", "seconds": "3600", "feeling": "????22.??? asdf?", "runRouteId": null}' http://kirstine.comli.com/sites/Health/index.php/run/
+
+
 
 
 // create run but false authentication

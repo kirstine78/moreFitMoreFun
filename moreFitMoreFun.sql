@@ -34,7 +34,7 @@ INSERT INTO tblCustomer VALUES (5, 'Eve',	'eve@mail.com',  	'xfkGTyl4n8', 'cc564
 Create Table If Not Exists tblRoute
 (
  fldRouteId					MEDIUMINT 		Not Null AUTO_INCREMENT,
- fldRouteName				VarChar(20)		Not Null,
+ fldRouteName				VarChar(50)		Not Null,
  fldRouteDistance			double(4, 2)	Not Null,
  fldRouteCustomerId			MEDIUMINT 		Not Null,
  
@@ -56,7 +56,7 @@ Create Table If Not Exists tblRun
  fldDate 					date			Not null,
  fldDistance				double(4, 2),
  fldSeconds					int,
- fldFeeling					VarChar(50),
+ fldFeeling					VarChar(100),
  fldBlankRouteName			VarChar(10),
  fldRunCustomerId			MEDIUMINT		Not Null,
  fldRunRouteId				MEDIUMINT,
